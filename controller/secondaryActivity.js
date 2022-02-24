@@ -1,10 +1,8 @@
 const DBSevice = require("../DBService")
-const searchCNPJ = require("../searchCNPJ")
 
-
-const clientsController = ()=>{
+const secondaryActivityController = ()=>{
     const options = {
-        table: 'clients',
+        table: 'secondaryActivity',
         orderBy: 'id'
     }
 
@@ -12,27 +10,9 @@ const clientsController = ()=>{
 
     const addTable = (req,res)=>{
         const body = [
-            'date date',
-            'data_situacao varchar(30)',
-            'tipo varchar(30)',
-            'uf varchar(2)',
-            'telefone varchar(30)',
-            'email varchar(30)',
-            'atividades_secundarias int',
-            'qsa int',
-            'situacao varchar(30)',
-            'bairro varchar(30)',
-            'logradouro varchar(30)',
-            'cep int',
-            'municipio varchar(30)',
-            'porte varchar(30)',
-            'natureza_juridica varchar(30)',
-            'fantasia varchar(30)',
-            'cnpj varchar(30)',
-            'ultima_atualizacao varchar(30)',
-            'status varchar(30)',
-            'complemento varchar(30)',
-            'capital_social int',
+            'text varchar(100)',
+            'code varchar(30)',
+            'idClients int'
         ]
 
         dbService.createTable(body).then((result)=>{
@@ -95,16 +75,13 @@ const clientsController = ()=>{
         })
     }
 
-    const getCNPJ = async (req,res)=>{
-        const json = await searchCNPJ(req.body.cnpj)
+    const addForeinkey = (req,res)=>{
+        const body = {
+            foreignKey: 'idClients',
+            tableReferences: 'clients'
+        }
 
-        console.log('json:',json)
-
-        res.status(200).send(json)
-    }
-
-    const create = ()=>{
-        dbService.insert().then((result)=>{
+        dbService.alterTableForeignKey(body).then((result)=>{
             res.status(200).send(result)
 
         }).catch((error)=>{
@@ -119,9 +96,8 @@ const clientsController = ()=>{
         deleteTable,
         changeColumn,
         renameColumn,
-        getCNPJ,
-        create
+        addForeinkey
     }
 }
 
-module.exports = clientsController
+module.exports = secondaryActivityController

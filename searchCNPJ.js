@@ -13,7 +13,7 @@ const searchCNPJ = async (cnpj)=>{
             uf: data.uf,
             telefone: data.telefone,
             email: data.email,
-            atividades_secundarias: data.atividades_secundarias.map((x)=>{return {text: x.text}}),
+            atividades_secundarias: data.atividades_secundarias,
             quadro_societário: data.qsa,
             situacao: data.situacao,
             bairro: data.bairro,

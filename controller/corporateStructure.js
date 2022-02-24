@@ -1,10 +1,8 @@
 const DBSevice = require("../DBService")
-const searchCNPJ = require("../searchCNPJ")
 
-
-const clientsController = ()=>{
+const corporateStructureController = ()=>{
     const options = {
-        table: 'clients',
+        table: 'corporateStructure',
         orderBy: 'id'
     }
 
@@ -12,27 +10,9 @@ const clientsController = ()=>{
 
     const addTable = (req,res)=>{
         const body = [
-            'date date',
-            'data_situacao varchar(30)',
-            'tipo varchar(30)',
-            'uf varchar(2)',
-            'telefone varchar(30)',
-            'email varchar(30)',
-            'atividades_secundarias int',
-            'qsa int',
-            'situacao varchar(30)',
-            'bairro varchar(30)',
-            'logradouro varchar(30)',
-            'cep int',
-            'municipio varchar(30)',
-            'porte varchar(30)',
-            'natureza_juridica varchar(30)',
-            'fantasia varchar(30)',
-            'cnpj varchar(30)',
-            'ultima_atualizacao varchar(30)',
-            'status varchar(30)',
-            'complemento varchar(30)',
-            'capital_social int',
+            'what varchar(100)',
+            'name varchar(30)',
+            'idClients int'
         ]
 
         dbService.createTable(body).then((result)=>{
@@ -82,29 +62,26 @@ const clientsController = ()=>{
 
     const renameColumn = (req,res)=>{
         const body = {
-            column: 'names',
-            to: 'name varchar(30)'
+            column: 'qualquer',
+            to: 'what varchar(30)'
         }
 
         dbService.changeColumn(body).then((result)=>{
-            response(res).send(result)
+            res.status(200).send(result)
 
         }).catch((error)=>{
-            response(res).error()
+            res.status(500).send(error)
             console.log(error)
         })
     }
 
-    const getCNPJ = async (req,res)=>{
-        const json = await searchCNPJ(req.body.cnpj)
+    const addForeinkey = (req,res)=>{
+        const body = {
+            foreignKey: 'idClients',
+            tableReferences: 'clients'
+        }
 
-        console.log('json:',json)
-
-        res.status(200).send(json)
-    }
-
-    const create = ()=>{
-        dbService.insert().then((result)=>{
+        dbService.alterTableForeignKey(body).then((result)=>{
             res.status(200).send(result)
 
         }).catch((error)=>{
@@ -119,9 +96,8 @@ const clientsController = ()=>{
         deleteTable,
         changeColumn,
         renameColumn,
-        getCNPJ,
-        create
+        addForeinkey
     }
 }
 
-module.exports = clientsController
+module.exports = corporateStructureController

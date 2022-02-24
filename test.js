@@ -4,7 +4,7 @@ const searchCNPJ = async ()=>{
     let json = {}
     
     try {
-        const {data} = await axios.get('https://receitaws.com.br/v1/cnpj/1029372100019');
+        const {data} = await axios.get('https://receitaws.com.br/v1/cnpj/10293721000190');
 
         json = {
             data_situacao: data.data_situacao,
@@ -13,7 +13,7 @@ const searchCNPJ = async ()=>{
             uf: data.uf,
             telefone: data.telefone,
             email: data.email,
-            atividades_secundarias: data.atividades_secundarias.map((x)=>{return {text: x.text}}),
+            atividades_secundarias: data.atividades_secundarias,
             quadro_societário: data.qsa,
             situacao: data.situacao,
             bairro: data.bairro,

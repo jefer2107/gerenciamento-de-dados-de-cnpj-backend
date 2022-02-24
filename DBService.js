@@ -80,9 +80,7 @@ const DBSevice = (options)=>{
     }
 
     const alterTableForeignKey = (body)=>{
-        console.log('alterTableForeignKey body:',body)
         const newBody = {...body,field:'id'}
-        console.log('alterTableForeignKey newBody:',newBody)
         const column = newBody.foreignKey
         const references = newBody.tableReferences
         const field = newBody.field
