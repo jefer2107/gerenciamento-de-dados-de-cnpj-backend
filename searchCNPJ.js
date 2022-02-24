@@ -1,10 +1,10 @@
 const axios = require('axios')
 
-const searchCNPJ = async ()=>{
+const searchCNPJ = async (cnpj)=>{
     let json = {}
     
     try {
-        const {data} = await axios.get('https://receitaws.com.br/v1/cnpj/10293721000190');
+        const {data} = await axios.get(`https://receitaws.com.br/v1/cnpj/${cnpj}`);
 
         json = {
             data_situacao: data.data_situacao,

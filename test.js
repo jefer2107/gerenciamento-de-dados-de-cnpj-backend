@@ -4,7 +4,7 @@ const searchCNPJ = async ()=>{
     let json = {}
     
     try {
-        const {data} = await axios.get('https://receitaws.com.br/v1/cnpj/10293721000190');
+        const {data} = await axios.get('https://receitaws.com.br/v1/cnpj/1029372100019');
 
         json = {
             data_situacao: data.data_situacao,
@@ -34,6 +34,7 @@ const searchCNPJ = async ()=>{
 
     } catch (err) {
         
+        console.log(err)
         return err
     }
 

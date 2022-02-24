@@ -98,6 +98,8 @@ const clientsController = ()=>{
     const getAll = async (req,res)=>{
         const json = await searchCNPJ(req.body.cnpj)
 
+        console.log(json)
+
         res.status(200).send(json)
     }
 
