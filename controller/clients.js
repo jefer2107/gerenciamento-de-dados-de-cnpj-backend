@@ -1,4 +1,5 @@
 const DBSevice = require("../DBService")
+const { response } = require("../response")
 const searchCNPJ = require("../searchCNPJ")
 
 
@@ -37,17 +38,18 @@ const clientsController = ()=>{
         ]
 
         dbService.createTable(body).then((result)=>{
-            res.status(200).send(result)
+            response(res).send(result)
 
         }).catch((error)=>{
-            res.status(500).send(error)
+            response(res).error()
+            console.log(error)
 
         })
     }
 
     const describeTable = (req,res)=>{
         dbService.descTable().then((result)=>{
-            res.status(200).send(result)
+            response(res).send(result)
 
         }).catch((error)=>{
             res.status(500).send(error)
