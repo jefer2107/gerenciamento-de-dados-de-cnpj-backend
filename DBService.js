@@ -12,8 +12,8 @@ const DBSevice = (options)=>{
     //Table
 
     const createTable = (body)=>{
-        body.unshift("id int auto_increment")
-        body.push("primary key(id)")
+        //body.unshift("id int auto_increment")
+        body.push("primary key(cnpj)")
         const columns = body.toString()
 
         return new Promise((res,rej)=>{
@@ -79,7 +79,7 @@ const DBSevice = (options)=>{
     }
 
     const alterTableForeignKey = (body)=>{
-        const newBody = {...body,field:'id'}
+        const newBody = {...body,field:'cnpj'}
         const column = newBody.foreignKey
         const references = newBody.tableReferences
         const field = newBody.field

@@ -24,7 +24,7 @@ const routesController = (app)=>{
     app.delete('/secondaryActivity/deleteTable',secondaryActivityController().deleteTable)
     app.put('/secondaryActivity/addForeinkey',secondaryActivityController().addForeinkey)
     app.get('/secondaryActivity/addForeinkey',secondaryActivityController().getAll)
-    //app.post('/clients/create',secondaryActivityController().create)
+    app.post('/clients/create',secondaryActivityController().create)
     app.patch('/secondaryActivity/:id/relateClient',secondaryActivityController().relateClient)
 
     //corporateStructure

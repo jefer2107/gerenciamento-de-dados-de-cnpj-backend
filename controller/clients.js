@@ -13,6 +13,7 @@ const clientsController = ()=>{
 
     const addTable = (req,res)=>{
         const body = [
+            'cnpj varchar(30)',
             'date date',
             'date_situation varchar(30)',
             'type varchar(30)',
@@ -20,8 +21,6 @@ const clientsController = ()=>{
             'sth varchar(2)',
             'telephone varchar(30)',
             'email varchar(30)',
-            'secondary_activity int',
-            'qsa int',
             'situation varchar(15)',
             'district varchar(30)',
             'address varchar(30)',
@@ -32,7 +31,6 @@ const clientsController = ()=>{
             'opening varchar(10)',
             'legal_nature varchar(30)',
             'fantasy varchar(30)',
-            'cnpj varchar(30)',
             'status varchar(30)',
             'complement varchar(30)',
             'joint_stock varchar(30)',
@@ -108,8 +106,8 @@ const clientsController = ()=>{
 
     const create = (req,res)=>{
         const body = {
-            columns:['date','date_situation','type','name','sth','telephone','email','secondary_activity','qsa','situation','district','address','number','zip_code','city','company_size','opening','legal_nature','fantasy','cnpj','status','complement','joint_stock',],
-            values:[new Date(),req.body.date_situation,req.body.type,req.body.name,req.body.sth,req.body.telephone,req.body.email,req.body.secondary_activity,req.body.qsa,req.body.situation,req.body.district,req.body.address,req.body.number,req.body.zip_code,req.body.city,req.body.company_size,req.body.opening,req.body.legal_nature,req.body.fantasy,req.body.cnpj,req.body.status,req.body.complement,req.body.joint_stock,]
+            columns:['date','date_situation','type','name','sth','telephone','email','situation','district','address','number','zip_code','city','company_size','opening','legal_nature','fantasy','cnpj','status','complement','joint_stock',],
+            values:[new Date(),req.body.date_situation,req.body.type,req.body.name,req.body.sth,req.body.telephone,req.body.email,req.body.situation,req.body.district,req.body.address,req.body.number,req.body.zip_code,req.body.city,req.body.company_size,req.body.opening,req.body.legal_nature,req.body.fantasy,req.body.cnpj,req.body.status,req.body.complement,req.body.joint_stock,]
         }
 
         dbService.insert(body).then((result)=>{

@@ -7,6 +7,7 @@ const searchCNPJ = async (cnpj)=>{
         const {data} = await axios.get(`https://receitaws.com.br/v1/cnpj/${cnpj}`);
 
         json = {
+            cnpj: data.cnpj,
             date_situation: data.data_situacao,
             type: data.tipo,
             name: data.nome,
@@ -25,7 +26,6 @@ const searchCNPJ = async (cnpj)=>{
             opening: data.abertura,
             legal_nature: data.natureza_juridica,
             fantasy: data.fantasia,
-            cnpj: data.cnpj,
             status: data.status,
             complement: data.complemento,
             joint_stock: data.capital_social

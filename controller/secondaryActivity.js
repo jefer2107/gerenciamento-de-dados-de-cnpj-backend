@@ -90,7 +90,24 @@ const secondaryActivityController = ()=>{
         })
     }
 
+    //const getClients = ()=>{}
+
+    const create = (req,res)=>{
+        const body = {
+            columns: ['text','code','idClients'],
+            values: [req.body.text,req.body.code,req.body.idClients]
+        }
+
+        dbService.insert(body).then((result)=>{
+            res.status(200).send(result)
+
+        }).catch((error)=>{
+            res.status(500).send(error)
+        })
+    }
+
     const getAll = (req,res)=>{
+        
         dbService.selectAll().then((result)=>{
             res.status(200).send(result)
 
@@ -125,6 +142,7 @@ const secondaryActivityController = ()=>{
         renameColumn,
         addForeinkey,
         getAll,
+        create,
         relateClient
     }
 }

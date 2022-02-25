@@ -12,7 +12,7 @@ const corporateStructureController = ()=>{
         const body = [
             'what varchar(100)',
             'name varchar(30)',
-            'idClients int'
+            'CNPJClients int'
         ]
 
         dbService.createTable(body).then((result)=>{
@@ -77,7 +77,7 @@ const corporateStructureController = ()=>{
 
     const addForeinkey = (req,res)=>{
         const body = {
-            foreignKey: 'idClients',
+            foreignKey: 'CNPJClients',
             tableReferences: 'clients'
         }
 
