@@ -24,7 +24,7 @@ const clientsController = ()=>{
             'district varchar(30)',
             'address varchar(30)',
             'number varchar(30)',
-            'zip_code int',
+            'zip_code varchar(30)',
             'city varchar(30)',
             'company_size varchar(30)',
             'opening varchar(10)',

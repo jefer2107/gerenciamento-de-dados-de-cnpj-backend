@@ -79,7 +79,7 @@ const DBSevice = (options)=>{
     }
 
     const alterTableForeignKey = (body)=>{
-        const newBody = {...body,field:'cnpj'}
+        const newBody = {...body,field:'id'}
         const column = newBody.foreignKey
         const references = newBody.tableReferences
         const field = newBody.field

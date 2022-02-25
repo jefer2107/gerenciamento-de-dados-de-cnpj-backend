@@ -6,17 +6,18 @@ const searchCNPJ = ()=>{
         
         try {
             const {data} = await axios.get('https://receitaws.com.br/v1/cnpj/10293721000190');
-
+            const newCNPJ = data.cnpj.replace('.','').replace('.','').replace('/','').replace('-','')
+            
             json = {
-                id: data.cnpj.replace('.','').replace('.','').replace('/','').replace('-',''),
+                id: newCNPJ,
                 date_situation: data.data_situacao,
                 type: data.tipo,
                 name: data.nome,
                 sth: data.uf,
                 telephone: data.telefone,
                 email: data.email,
-                secondary_activity: data.atividades_secundarias.map((x)=>{ return {...x,refCnpj:data.cnpj}}),
-                qsa: data.qsa.map((x)=>{ return {...x,refCnpj:data.cnpj}}),
+                secondary_activity: data.atividades_secundarias.map((x)=>{ return {...x,refCnpj:newCNPJ}}),
+                qsa: data.qsa.map((x)=>{ return {...x,refCnpj:newCNPJ}}),
                 situation: data.situacao,
                 district: data.bairro,
                 address: data.logradouro,
