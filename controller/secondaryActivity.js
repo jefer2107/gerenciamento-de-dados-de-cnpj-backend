@@ -1,4 +1,5 @@
 const DBSevice = require("../DBService")
+const searchCNPJ = require("../searchCNPJ")
 
 const secondaryActivityController = ()=>{
     const options = {
@@ -90,20 +91,26 @@ const secondaryActivityController = ()=>{
         })
     }
 
-    //const getClients = ()=>{}
+    const create = async (req,res)=>{
+        
+        const newCNPJ = req.body.CNPJClients.replace('.','').replace('.','').replace('/','').replace('-','')
+        const result = await searchCNPJ(newCNPJ)
+        const resultSize = result.secondary_activity.length
+        
+        for(let index=0; index < resultSize; index++){
+            const body = {
+                columns: ['text','code','CNPJClients'],
+                values: [req.body.text,req.body.code,req.body.CNPJClients]
+            }
 
-    const create = (req,res)=>{
-        const body = {
-            columns: ['text','code','CNPJClients'],
-            values: [req.body.text,req.body.code,req.body.idClients]
+            dbService.insert(body).then((result)=>{
+                res.status(200).send(result)
+
+            }).catch((error)=>{
+                res.status(500).send(error)
+            })
         }
-
-        dbService.insert(body).then((result)=>{
-            res.status(200).send(result)
-
-        }).catch((error)=>{
-            res.status(500).send(error)
-        })
+        
     }
 
     const getAll = (req,res)=>{

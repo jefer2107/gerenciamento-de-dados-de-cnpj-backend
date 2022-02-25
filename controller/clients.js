@@ -6,7 +6,7 @@ const searchCNPJ = require("../searchCNPJ")
 const clientsController = ()=>{
     const options = {
         table: 'clients',
-        orderBy: 'id'
+        orderBy: 'cnpj'
     }
 
     let dbService = DBSevice(options)

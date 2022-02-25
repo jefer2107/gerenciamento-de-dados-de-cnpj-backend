@@ -23,8 +23,8 @@ const routesController = (app)=>{
     app.put('/secondaryActivity/renameColumn',secondaryActivityController().renameColumn)
     app.delete('/secondaryActivity/deleteTable',secondaryActivityController().deleteTable)
     app.put('/secondaryActivity/addForeinkey',secondaryActivityController().addForeinkey)
-    app.get('/secondaryActivity/addForeinkey',secondaryActivityController().getAll)
-    app.post('/clients/create',secondaryActivityController().create)
+    app.get('/secondaryActivity/getAll',secondaryActivityController().getAll)
+    app.post('/secondaryActivity/create',secondaryActivityController().create)
     app.patch('/secondaryActivity/:id/relateClient',secondaryActivityController().relateClient)
 
     //corporateStructure
@@ -36,9 +36,10 @@ const routesController = (app)=>{
     app.put('/corporateStructure/renameColumn',corporateStructureController().renameColumn)
     app.delete('/corporateStructure/deleteTable',corporateStructureController().deleteTable)
     app.put('/corporateStructure/addForeinkey',corporateStructureController().addForeinkey)
-    app.get('/corporateStructure/addForeinkey',secondaryActivityController().getAll)
-    //app.post('/corporateStructure/create',corporateStructureController().create)
-    app.patch('/corporateStructure/:id/relateClient',secondaryActivityController().relateClient)
+    app.get('/corporateStructure/addForeinkey',corporateStructureController().getAll)
+    app.post('/corporateStructure/create',corporateStructureController().create)
+    app.get('/corporateStructure/getAll',corporateStructureController().getAll)
+    app.patch('/corporateStructure/:id/relateClient',corporateStructureController().relateClient)
 }
 
 module.exports = routesController

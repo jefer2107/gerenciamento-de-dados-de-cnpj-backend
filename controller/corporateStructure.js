@@ -100,6 +100,19 @@ const corporateStructureController = ()=>{
         })
     }
 
+    const create = (req,res)=>{
+        const body = {
+            columns: ['what','name','CNPJClients'],
+            values: [req.body.what,req.body.name,req.body.CNPJClients]
+        }
+        dbService.insert(body).then((result)=>{
+            res.status(200).send(result)
+
+        }).catch((error)=>{
+            res.status(500).send(error)
+        })
+    }
+
     const relateClient = (req,res)=>{
         const id = req.params.id
         const body = {
@@ -126,6 +139,7 @@ const corporateStructureController = ()=>{
         renameColumn,
         addForeinkey,
         getAll,
+        create,
         relateClient
     }
 }
