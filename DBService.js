@@ -1,6 +1,6 @@
 const mysql2 = require('mysql2')
 
-const DBSevice = (options)=>{
+const DBSevice = (options=null)=>{
     const table = options?.table
 
     const connection = mysql2.createConnection({

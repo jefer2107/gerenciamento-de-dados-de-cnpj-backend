@@ -1,7 +1,7 @@
 const DBSevice = require("../DBService")
-const { response } = require("../response")
+const { response, emailFormat } = require("../response")
 const searchCNPJ = require("../searchCNPJ")
-
+const validate = require("../validate")
 
 const clientsController = ()=>{
     const options = {
@@ -52,17 +52,17 @@ const clientsController = ()=>{
             response(res).send(result)
 
         }).catch((error)=>{
-            res.status(500).send(error)
+            response(res).error()
             console.log(error)
         })
     }
 
     const deleteTable = (req,res)=>{
         dbService.dropTable().then((result)=>{
-            res.status(200).send(result)
+            response(res).send(result)
 
         }).catch((error)=>{
-            res.status(500).send(error)
+            response(res).send(result)
             console.log(error)
 
         })
@@ -74,7 +74,7 @@ const clientsController = ()=>{
         }
 
         dbService.modifyColumn(body).then((result)=>{
-            res.status(200).send(result)
+            response(res).send(result)
 
         }).catch((error)=>{
             res.status(500).send(error)
@@ -90,7 +90,7 @@ const clientsController = ()=>{
         }
 
         dbService.changeColumn(body).then((result)=>{
-            res.status(200).send(result)
+            response(res).send(result)
 
         }).catch((error)=>{
             response(res).error()
@@ -109,7 +109,7 @@ const clientsController = ()=>{
             response(res).send(result)
 
         }).catch((error)=>{
-            res.status(500).send(error)
+            response(res).error()
             console.log(error)
 
         })
@@ -117,35 +117,43 @@ const clientsController = ()=>{
 
     const getCNPJ = (req,res)=>{
         searchCNPJ(req.body.cnpj).then((result)=>{
-            res.status(200).send(result)
+            response(res).send(result)
 
         }).catch((error)=>{
-            res.status(500).send(error)
+            response(res).error()
+            console.log(error)
         })
 
     }
 
-    const create = (req,res)=>{
+    
+
+    const create = async (req,res)=>{
         const body = {
             columns:['id','date','date_situation','type','name','sth','telephone','email','situation','district','address','number','zip_code','city','company_size','opening','legal_nature','fantasy','cnpj','status','complement','joint_stock',],
             values:[req.body.id,new Date(),req.body.date_situation,req.body.type,req.body.name,req.body.sth,req.body.telephone,req.body.email,req.body.situation,req.body.district,req.body.address,req.body.number,req.body.zip_code,req.body.city,req.body.company_size,req.body.opening,req.body.legal_nature,req.body.fantasy,req.body.cnpj,req.body.status,req.body.complement,req.body.joint_stock,]
         }
 
+        //validate(req.body.id).clients()
+        emailFormat(req.body.email)
+
         dbService.insert(body).then((result)=>{
-            res.status(200).send(result)
+            response(res).send(result)
 
         }).catch((error)=>{
-            res.status(500).send(error)
+            response(res).error()
+            console.log(error)
 
         })
     }
 
     const getAll = (req,res)=>{
         dbService.selectAll().then((result)=>{
-            res.status(200).send(result)
+            response(res).send(result)
 
         }).catch((error)=>{
-            res.status(500).send(error)
+            response(res).error()
+            console.log(error)
 
         })
     }
@@ -153,10 +161,11 @@ const clientsController = ()=>{
     const removeItem = (req,res)=>{
 
         dbService.deleteItem(req.params.id).then((result)=>{
-            res.status(200).send(result)
+            response(res).send(result)
 
         }).catch((error)=>{
-            res.status(500).send(error)
+            response(res).error()
+            console.log(error)
         })
     }
 

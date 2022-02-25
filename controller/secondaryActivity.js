@@ -1,5 +1,6 @@
 const DBSevice = require("../DBService")
-const searchCNPJ = require("../searchCNPJ")
+const { response } = require("../response")
+const validate = require("../validate")
 
 const secondaryActivityController = ()=>{
     const options = {
@@ -17,30 +18,31 @@ const secondaryActivityController = ()=>{
         ]
 
         dbService.createTable(body).then((result)=>{
-            res.status(200).send(result)
+            response(res).send(result)
 
         }).catch((error)=>{
-            res.status(500).send(error)
+            response(res).error()
+            console.log(error)
 
         })
     }
 
     const describeTable = (req,res)=>{
         dbService.descTable().then((result)=>{
-            res.status(200).send(result)
+            response(res).send(result)
 
         }).catch((error)=>{
-            res.status(500).send(error)
+            response(res).error()
             console.log(error)
         })
     }
 
     const deleteTable = (req,res)=>{
         dbService.dropTable().then((result)=>{
-            res.status(200).send(result)
+            response(res).send(result)
 
         }).catch((error)=>{
-            res.status(500).send(error)
+            response(res).error()
             console.log(error)
 
         })
@@ -52,10 +54,10 @@ const secondaryActivityController = ()=>{
         }
 
         dbService.modifyColumn(body).then((result)=>{
-            res.status(200).send(result)
+            response(res).send(result)
 
         }).catch((error)=>{
-            res.status(500).send(error)
+            response(res).error()
             console.log(error)
 
         })
@@ -83,10 +85,11 @@ const secondaryActivityController = ()=>{
         }
 
         dbService.alterTableForeignKey(body).then((result)=>{
-            res.status(200).send(result)
+            response(res).send(result)
 
         }).catch((error)=>{
-            res.status(500).send(error)
+            response(res).error()
+            console.log(error)
 
         })
     }
@@ -99,23 +102,27 @@ const secondaryActivityController = ()=>{
                 values: [x.text,x.code,x.refCnpj]
             }
 
+            //validate(x.refCnpj).secondaryActivity()
+
             dbService.insert(body).then((result)=>{
-                res.status(200).send(result)
+                response(res).send(result)
 
             }).catch((error)=>{
-                res.status(500).send(error)
+                response(res).error()
+                console.log(error)
             })
         })
         
     }
 
-    const getAll = (req,res)=>{
+    const getAll = async (req,res)=>{
         
         dbService.selectAll().then((result)=>{
-            res.status(200).send(result)
+            response(res).send(result)
 
         }).catch((error)=>{
-            res.status(500).send(error)
+            response(res).error()
+            console.log(error)
 
         })
     }
@@ -123,11 +130,30 @@ const secondaryActivityController = ()=>{
     const removeItem = (req,res)=>{
 
         dbService.deleteItem(req.params.id).then((result)=>{
-            res.status(200).send(result)
+            response(res).send(result)
 
         }).catch((error)=>{
-            res.status(500).send(error)
+            response(res).error()
+            console.log(error)
         })
+    }
+
+    const removeAll = async (req,res)=>{
+
+        const items = await dbService.selectAll().then((x)=>{return x}).catch((error)=>{return error})
+
+        console.log('items:',items)
+
+        items.forEach((x)=>{
+            dbService.deleteItem(x.id).then((result)=>{
+                response(res).send(result)
+    
+            }).catch((error)=>{
+                response(res).error()
+                console.log(error)
+            })
+        })
+
     }
 
 
@@ -140,7 +166,8 @@ const secondaryActivityController = ()=>{
         addForeinkey,
         getAll,
         create,
-        removeItem
+        removeItem,
+        removeAll
     }
 }
 

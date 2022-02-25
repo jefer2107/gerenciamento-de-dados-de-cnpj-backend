@@ -28,6 +28,7 @@ const routesController = (app)=>{
     app.get('/secondaryActivity/getAll',secondaryActivityController().getAll)
     app.post('/secondaryActivity/create',secondaryActivityController().create)
     app.delete('/secondaryActivity/:id/removeItem',secondaryActivityController().removeItem)
+    app.delete('/secondaryActivity/removeAll',secondaryActivityController().removeAll)
 
     //corporateStructure
     const corporateStructureController = require('./controller/corporateStructure')

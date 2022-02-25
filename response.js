@@ -1,6 +1,6 @@
 
 const response = (res)=>{
-    const send = ()=> res.status(200).send(value)
+    const send = (value)=> res.status(200).send(value)
     const error = ()=> res.status(500).send('Um error crítico ocorreu!')
     const unauthorize = ()=> res.status(500).send('Não autorizado!')
     const forbiden = ()=> res.status(500).send('Acesso negado!')
