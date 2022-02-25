@@ -124,22 +124,16 @@ const secondaryActivityController = ()=>{
         })
     }
 
-    const relateClient = (req,res)=>{
-        const id = req.params.id
-        const body = {
-            column: 'idClients',
-            id: req.body.id
-        }
+    const removeItem = (req,res)=>{
 
-        dbService.updateTableForeignKey(body,id).then((result)=>{
-            response(res).send(result)
+        dbService.deleteItem(req.params.id).then((result)=>{
+            res.status(200).send(result)
 
         }).catch((error)=>{
-            response(res).error()
-            console.log(error)
-
+            res.status(500).send(error)
         })
     }
+
 
     return{
         addTable,
@@ -150,7 +144,7 @@ const secondaryActivityController = ()=>{
         addForeinkey,
         getAll,
         create,
-        relateClient
+        removeItem
     }
 }
 
