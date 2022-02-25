@@ -12,6 +12,7 @@ const routesController = (app)=>{
     app.delete('/clients/deleteTable',clientsController().deleteTable)
     app.get('/clients/getCNPJ',clientsController().getCNPJ)
     app.post('/clients/create',clientsController().create)
+    app.get('/clients/getAll',clientsController().getAll)
 
     //secondaryActivityController
     const secondaryActivityController = require('./controller/secondaryActivity')

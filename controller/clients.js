@@ -1,3 +1,4 @@
+const res = require("express/lib/response")
 const DBSevice = require("../DBService")
 const searchCNPJ = require("../searchCNPJ")
 
@@ -120,6 +121,16 @@ const clientsController = ()=>{
         })
     }
 
+    const getAll = (req,res)=>{
+        dbService.selectAll().then((result)=>{
+            res.status(200).send(result)
+
+        }).catch((error)=>{
+            res.status(500).send(error)
+
+        })
+    }
+
     return{
         addTable,
         describeTable,
@@ -127,7 +138,8 @@ const clientsController = ()=>{
         changeColumn,
         renameColumn,
         getCNPJ,
-        create
+        create,
+        getAll
     }
 }
 
