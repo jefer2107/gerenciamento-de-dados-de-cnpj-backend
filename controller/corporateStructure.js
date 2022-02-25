@@ -103,14 +103,10 @@ const corporateStructureController = ()=>{
 
     const create = async (req,res)=>{
         
-        const newCNPJ = req.body.CNPJClients.replace('.','').replace('.','').replace('/','').replace('-','')
-        const result = await searchCNPJ(newCNPJ)
-        const resultSize = result.qsa.length
-        
-        for(let index=0; index < resultSize; index++){
+        req.body.qsa.forEach((x)=>{
             const body = {
                 columns: ['what','name','CNPJClients'],
-                values: [req.body.what,req.body.name,req.body.CNPJClients]
+                values: [x.qual,x.nome,x.refCnpj]
             }
 
             dbService.insert(body).then((result)=>{
@@ -119,7 +115,7 @@ const corporateStructureController = ()=>{
             }).catch((error)=>{
                 res.status(500).send(error)
             })
-        }
+        })
         
     }
 
@@ -132,24 +128,6 @@ const corporateStructureController = ()=>{
             res.status(500).send(error)
         })
     }
-
-    const relateClient = (req,res)=>{
-        const id = req.params.id
-        const body = {
-            column: 'idClients',
-            id: req.body.id
-        }
-
-        dbService.updateTableForeignKey(body,id).then((result)=>{
-            response(res).send(result)
-
-        }).catch((error)=>{
-            response(res).error()
-            console.log(error)
-
-        })
-    }
-
 
     return{
         addTable,
