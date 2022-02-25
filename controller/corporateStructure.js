@@ -12,7 +12,7 @@ const corporateStructureController = ()=>{
         const body = [
             'what varchar(100)',
             'name varchar(30)',
-            'CNPJClients int'
+            'CNPJClients varchar(30)'
         ]
 
         dbService.createTable(body).then((result)=>{
