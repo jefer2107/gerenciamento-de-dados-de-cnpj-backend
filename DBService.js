@@ -15,7 +15,6 @@ const DBSevice = (options)=>{
         body.unshift("id int auto_increment")
         body.push("primary key(id)")
         const columns = body.toString()
-        console.log('createTable columns :',columns)
 
         return new Promise((res,rej)=>{
             connection.query(`create table ${table}(${columns})`,(error,result)=>{

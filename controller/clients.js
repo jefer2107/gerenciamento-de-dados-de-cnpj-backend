@@ -13,26 +13,28 @@ const clientsController = ()=>{
     const addTable = (req,res)=>{
         const body = [
             'date date',
-            'data_situacao varchar(30)',
-            'tipo varchar(30)',
-            'uf varchar(2)',
-            'telefone varchar(30)',
+            'date_situation varchar(30)',
+            'type varchar(30)',
+            'name varchar(30)',
+            'sth varchar(2)',
+            'telephone varchar(30)',
             'email varchar(30)',
-            'atividades_secundarias int',
+            'secondary_activity int',
             'qsa int',
-            'situacao varchar(30)',
-            'bairro varchar(30)',
-            'logradouro varchar(30)',
-            'cep int',
-            'municipio varchar(30)',
-            'porte varchar(30)',
-            'natureza_juridica varchar(30)',
-            'fantasia varchar(30)',
+            'situation varchar(15)',
+            'district varchar(30)',
+            'address varchar(30)',
+            'number varchar(30)',
+            'zip_code int',
+            'city varchar(30)',
+            'company_size varchar(30)',
+            'opening varchar(10)',
+            'legal_nature varchar(30)',
+            'fantasy varchar(30)',
             'cnpj varchar(30)',
-            'ultima_atualizacao varchar(30)',
             'status varchar(30)',
-            'complemento varchar(30)',
-            'capital_social int',
+            'complement varchar(30)',
+            'joint_stock varchar(30)',
         ]
 
         dbService.createTable(body).then((result)=>{
@@ -103,8 +105,13 @@ const clientsController = ()=>{
         res.status(200).send(json)
     }
 
-    const create = ()=>{
-        dbService.insert().then((result)=>{
+    const create = (req,res)=>{
+        const body = {
+            columns:['date','date_situation','type','name','sth','telephone','email','secondary_activity','qsa','situation','district','address','number','zip_code','city','company_size','opening','legal_nature','fantasy','cnpj','status','complement','joint_stock',],
+            values:[new Date(),req.body.date_situation,req.body.type,req.body.name,req.body.sth,req.body.telephone,req.body.email,req.body.secondary_activity,req.body.qsa,req.body.situation,req.body.district,req.body.address,req.body.number,req.body.zip_code,req.body.city,req.body.company_size,req.body.opening,req.body.legal_nature,req.body.fantasy,req.body.cnpj,req.body.status,req.body.complement,req.body.joint_stock,]
+        }
+
+        dbService.insert(body).then((result)=>{
             res.status(200).send(result)
 
         }).catch((error)=>{

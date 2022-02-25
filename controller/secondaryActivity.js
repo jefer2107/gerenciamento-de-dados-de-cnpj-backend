@@ -90,13 +90,42 @@ const secondaryActivityController = ()=>{
         })
     }
 
+    const getAll = (req,res)=>{
+        dbService.selectAll().then((result)=>{
+            res.status(200).send(result)
+
+        }).catch((error)=>{
+            res.status(500).send(error)
+
+        })
+    }
+
+    const relateClient = (req,res)=>{
+        const id = req.params.id
+        const body = {
+            column: 'idClients',
+            id: req.body.id
+        }
+
+        dbService.updateTableForeignKey(body,id).then((result)=>{
+            response(res).send(result)
+
+        }).catch((error)=>{
+            response(res).error()
+            console.log(error)
+
+        })
+    }
+
     return{
         addTable,
         describeTable,
         deleteTable,
         changeColumn,
         renameColumn,
-        addForeinkey
+        addForeinkey,
+        getAll,
+        relateClient
     }
 }
 

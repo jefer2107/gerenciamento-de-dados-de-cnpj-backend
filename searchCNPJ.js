@@ -7,27 +7,28 @@ const searchCNPJ = async (cnpj)=>{
         const {data} = await axios.get(`https://receitaws.com.br/v1/cnpj/${cnpj}`);
 
         json = {
-            data_situacao: data.data_situacao,
-            tipo: data.tipo,
-            nome: data.nome,
-            uf: data.uf,
-            telefone: data.telefone,
+            date_situation: data.data_situacao,
+            type: data.tipo,
+            name: data.nome,
+            sth: data.uf,
+            telephone: data.telefone,
             email: data.email,
-            atividades_secundarias: data.atividades_secundarias,
-            quadro_societário: data.qsa,
-            situacao: data.situacao,
-            bairro: data.bairro,
-            logradouro: data.logradouro,
-            numero: data.numero,
-            cep: data.cep,
-            municipio: data.municipio,
-            porte: data.porte,
-            abertura: data.abertura,
-            natureza_juridica: data.natureza_juridica,
-            fantasia: data.fantasia,
+            secondary_activity: data.atividades_secundarias,
+            qsa: data.qsa,
+            situation: data.situacao,
+            district: data.bairro,
+            address: data.logradouro,
+            number: data.numero,
+            zip_code: data.cep,
+            city: data.municipio,
+            company_size: data.porte,
+            opening: data.abertura,
+            legal_nature: data.natureza_juridica,
+            fantasy: data.fantasia,
             cnpj: data.cnpj,
-            complemento: data.complemento,
-            capital_social: data.capital_social
+            status: data.status,
+            complement: data.complemento,
+            joint_stock: data.capital_social
         }
         
         return json
