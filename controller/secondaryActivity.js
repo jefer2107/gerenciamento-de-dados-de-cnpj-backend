@@ -12,7 +12,7 @@ const secondaryActivityController = ()=>{
         const body = [
             'text varchar(100)',
             'code varchar(30)',
-            'idClients int'
+            'CNPJClients varchar(30)'
         ]
 
         dbService.createTable(body).then((result)=>{
@@ -77,7 +77,7 @@ const secondaryActivityController = ()=>{
 
     const addForeinkey = (req,res)=>{
         const body = {
-            foreignKey: 'idClients',
+            foreignKey: 'CNPJClients',
             tableReferences: 'clients'
         }
 
@@ -94,7 +94,7 @@ const secondaryActivityController = ()=>{
 
     const create = (req,res)=>{
         const body = {
-            columns: ['text','code','idClients'],
+            columns: ['text','code','CNPJClients'],
             values: [req.body.text,req.body.code,req.body.idClients]
         }
 

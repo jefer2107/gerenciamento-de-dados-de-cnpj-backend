@@ -12,8 +12,8 @@ const DBSevice = (options)=>{
     //Table
 
     const createTable = (body)=>{
-        //body.unshift("id int auto_increment")
-        body.push("primary key(cnpj)")
+        body.unshift("id int auto_increment")
+        body.push("primary key(id)")
         const columns = body.toString()
 
         return new Promise((res,rej)=>{
