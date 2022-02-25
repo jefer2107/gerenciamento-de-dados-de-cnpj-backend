@@ -43,6 +43,7 @@ const routesController = (app)=>{
     app.post('/corporateStructure/create',corporateStructureController().create)
     app.get('/corporateStructure/getAll',corporateStructureController().getAll)
     app.delete('/corporateStructure/:id/removeItem',corporateStructureController().removeItem)
+    app.delete('/corporateStructure/removeAll',corporateStructureController().removeAll)
 }
 
 module.exports = routesController

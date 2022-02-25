@@ -142,8 +142,6 @@ const secondaryActivityController = ()=>{
 
         const items = await dbService.selectAll().then((x)=>{return x}).catch((error)=>{return error})
 
-        console.log('items:',items)
-
         items.forEach((x)=>{
             dbService.deleteItem(x.id).then((result)=>{
                 response(res).send(result)

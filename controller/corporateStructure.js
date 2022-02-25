@@ -134,6 +134,22 @@ const corporateStructureController = ()=>{
         })
     }
 
+    const removeAll = async (req,res)=>{
+
+        const items = await dbService.selectAll().then((x)=>{return x}).catch((error)=>{return error})
+
+        items.forEach((x)=>{
+            dbService.deleteItem(x.id).then((result)=>{
+                response(res).send(result)
+    
+            }).catch((error)=>{
+                response(res).error()
+                console.log(error)
+            })
+        })
+
+    }
+
     return{
         addTable,
         describeTable,
@@ -143,7 +159,8 @@ const corporateStructureController = ()=>{
         addForeinkey,
         getAll,
         create,
-        removeItem
+        removeItem,
+        removeAll
     }
 }
 
