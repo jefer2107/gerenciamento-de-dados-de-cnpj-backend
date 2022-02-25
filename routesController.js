@@ -39,7 +39,7 @@ const routesController = (app)=>{
     app.get('/corporateStructure/addForeinkey',corporateStructureController().getAll)
     app.post('/corporateStructure/create',corporateStructureController().create)
     app.get('/corporateStructure/getAll',corporateStructureController().getAll)
-    app.patch('/corporateStructure/:id/relateClient',corporateStructureController().relateClient)
+    app.delete('/corporateStructure/:id/removeItem',corporateStructureController().removeItem)
 }
 
 module.exports = routesController
