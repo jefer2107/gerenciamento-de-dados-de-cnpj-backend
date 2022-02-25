@@ -1,4 +1,5 @@
 const DBSevice = require("../DBService")
+const searchCNPJ = require("../searchCNPJ")
 
 const corporateStructureController = ()=>{
     const options = {
@@ -100,17 +101,26 @@ const corporateStructureController = ()=>{
         })
     }
 
-    const create = (req,res)=>{
-        const body = {
-            columns: ['what','name','CNPJClients'],
-            values: [req.body.what,req.body.name,req.body.CNPJClients]
-        }
-        dbService.insert(body).then((result)=>{
-            res.status(200).send(result)
+    const create = async (req,res)=>{
+        
+        const newCNPJ = req.body.CNPJClients.replace('.','').replace('.','').replace('/','').replace('-','')
+        const result = await searchCNPJ(newCNPJ)
+        const resultSize = result.qsa.length
+        
+        for(let index=0; index < resultSize; index++){
+            const body = {
+                columns: ['what','name','CNPJClients'],
+                values: [req.body.what,req.body.name,req.body.CNPJClients]
+            }
 
-        }).catch((error)=>{
-            res.status(500).send(error)
-        })
+            dbService.insert(body).then((result)=>{
+                res.status(200).send(result)
+
+            }).catch((error)=>{
+                res.status(500).send(error)
+            })
+        }
+        
     }
 
     const relateClient = (req,res)=>{
