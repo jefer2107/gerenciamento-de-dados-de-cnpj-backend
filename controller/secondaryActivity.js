@@ -93,14 +93,10 @@ const secondaryActivityController = ()=>{
 
     const create = async (req,res)=>{
         
-        const newCNPJ = req.body.CNPJClients.replace('.','').replace('.','').replace('/','').replace('-','')
-        const result = await searchCNPJ(newCNPJ)
-        const resultSize = result.secondary_activity.length
-        
-        for(let index=0; index < resultSize; index++){
+        req.body.secondary_activity.forEach((x)=>{
             const body = {
                 columns: ['text','code','CNPJClients'],
-                values: [req.body.text,req.body.code,req.body.CNPJClients]
+                values: [x.text,x.code,x.refCnpj]
             }
 
             dbService.insert(body).then((result)=>{
@@ -109,7 +105,7 @@ const secondaryActivityController = ()=>{
             }).catch((error)=>{
                 res.status(500).send(error)
             })
-        }
+        })
         
     }
 
