@@ -44,6 +44,19 @@ const routesController = (app)=>{
     app.get('/corporateStructure/getAll',corporateStructureController().getAll)
     app.delete('/corporateStructure/:id/removeItem',corporateStructureController().removeItem)
     app.delete('/corporateStructure/removeAll',corporateStructureController().removeAll)
+
+    //users
+    const usersController = require('./controller/users')
+
+    app.post('/users/addTable',usersController().addTable)
+    app.get('/users/describeTable',usersController().describeTable)
+    app.put('/users/changeColumn',usersController().changeColumn)
+    app.put('/users/renameColumn',usersController().renameColumn)
+    app.post('/users/addColumn',usersController().addColumn)
+    app.delete('/users/deleteTable',usersController().deleteTable)
+    app.post('/users/create',usersController().create)
+    app.get('/users/getAll',usersController().getAll)
+    app.delete('/users/:id/removeItem',usersController().removeItem)
 }
 
 module.exports = routesController
