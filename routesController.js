@@ -57,6 +57,11 @@ const routesController = (app)=>{
     app.post('/users/create',usersController().create)
     app.get('/users/getAll',usersController().getAll)
     app.delete('/users/:id/removeItem',usersController().removeItem)
+
+    //authentivate
+    const authenticateController = require('./controller/authenticate')
+
+    app.post('/auth',authenticateController().auth)
 }
 
 module.exports = routesController
