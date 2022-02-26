@@ -35,7 +35,7 @@ const authenticateController = ()=>{
             }
 
         }).catch((error)=>{
-            response(res).error(error)
+            response(res).error()
             console.log(error)
         })
         
