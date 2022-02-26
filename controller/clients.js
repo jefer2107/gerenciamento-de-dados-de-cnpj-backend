@@ -116,7 +116,7 @@ const clientsController = ()=>{
     }
 
     const getCNPJ = (req,res)=>{
-        searchCNPJ(req.body.cnpj).then((result)=>{
+        searchCNPJ(req.params.id).then((result)=>{
             response(res).send(result)
 
         }).catch((error)=>{

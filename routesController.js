@@ -11,7 +11,7 @@ const routesController = (app)=>{
     app.put('/clients/renameColumn',clientsController().renameColumn)
     app.post('/clients/addColumn',clientsController().addColumn)
     app.delete('/clients/deleteTable',clientsController().deleteTable)
-    app.get('/clients/getCNPJ',clientsController().getCNPJ)
+    app.get('/clients/:id/getCNPJ',clientsController().getCNPJ)
     app.post('/clients/create',clientsController().create)
     app.get('/clients/getAll',clientsController().getAll)
     app.delete('/clients/:id/removeItem',clientsController().removeItem)
