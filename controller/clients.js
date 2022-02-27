@@ -1,3 +1,4 @@
+const req = require("express/lib/request")
 const DBSevice = require("../DBService")
 const { response, emailFormat } = require("../response")
 const searchCNPJ = require("../searchCNPJ")
@@ -115,18 +116,79 @@ const clientsController = ()=>{
         })
     }
 
-    const getCNPJ = (req,res)=>{
-        searchCNPJ(req.params.id).then((result)=>{
+    const verifyCnpj = async (id)=>{
+        let hasCnpj;
+        let getResult;
+        let number = 0
+        await dbService.selectAll().then((result)=>{
+
+            if(result.length !== 0){
+
+                hasCnpj = result.map((x)=>{
+                    getResult = x.id === id
+    
+                    if(getResult === true){
+                        ++number
+                    }
+    
+                })
+    
+                getResult = number > 0
+                return getResult
+
+            }else{
+                getResult = result
+                return getResult
+            }
+
+        }).catch((error)=>{
+            getResult = error
+            return error
+            
+        })
+
+        return getResult
+    }
+
+    const getOne = async (req,res)=>{
+        const result = await verifyCnpj(req.params.id)
+
+        if(!result || result.length == 0){
+            searchCNPJ(req.params.id).then((result)=>{
+                console.log('result searchCNPJ:',result)
+                response(res).send(result)
+                
+    
+            }).catch((error)=>{
+                response(res).error()
+                console.log(error)
+            })
+
+        }else{
+            console.log('result dbService:',result)
+            dbService.connection.query(
+                `select * from clients join secondaryActivity on secondaryActivity.CNPJClients=clients.id 
+                join corporateStructure on corporateStructure.CNPJClients=clients.id;`,
+                (error,result)=>{
+                    if(error) response(res).error()
+
+                    response(res).send(result)
+                })
+        }
+        
+
+    }
+
+    const getAll = (req,res)=>{
+
+        dbService.selectAll().then((result)=>{
             response(res).send(result)
 
         }).catch((error)=>{
             response(res).error()
             console.log(error)
         })
-
     }
-
-    
 
     const create = async (req,res)=>{
         const body = {
@@ -138,17 +200,6 @@ const clientsController = ()=>{
         emailFormat(req.body.email)
 
         dbService.insert(body).then((result)=>{
-            response(res).send(result)
-
-        }).catch((error)=>{
-            response(res).error()
-            console.log(error)
-
-        })
-    }
-
-    const getAll = (req,res)=>{
-        dbService.selectAll().then((result)=>{
             response(res).send(result)
 
         }).catch((error)=>{
@@ -177,8 +228,8 @@ const clientsController = ()=>{
         changeColumn,
         renameColumn,
         addColumn,
-        getCNPJ,
         create,
+        getOne,
         getAll,
         removeItem
     }

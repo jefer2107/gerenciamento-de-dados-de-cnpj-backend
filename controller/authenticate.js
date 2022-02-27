@@ -15,8 +15,8 @@ const authenticateController = ()=>{
     const auth = (req,res)=>{
         const body = {
             where: {
-                column: 'email',
-                value: req.body.email
+                column: ['email'],
+                value: [req.body.email]
             }
         }
 
@@ -26,7 +26,7 @@ const authenticateController = ()=>{
                 if(result.length === 0 || result[0].password !== req.body.password)
                 response(res).unauthorize()
 
-                const token = jwt.sign({id: result[0].id, name: result[0].name}, config.secretToken)
+                const token = jwt.sign({id: result[0].id, name: result[0].name, admin: result[0].admin}, config.secretToken)
 
                 response(res).send(token)
 

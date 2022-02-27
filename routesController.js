@@ -1,3 +1,4 @@
+const authorizeController = require('./middlewares/authorize')
 
 
 
@@ -11,9 +12,9 @@ const routesController = (app)=>{
     app.put('/clients/renameColumn',clientsController().renameColumn)
     app.post('/clients/addColumn',clientsController().addColumn)
     app.delete('/clients/deleteTable',clientsController().deleteTable)
-    app.get('/clients/:id/getCNPJ',clientsController().getCNPJ)
-    app.post('/clients/create',clientsController().create)
     app.get('/clients/getAll',clientsController().getAll)
+    app.get('/clients/:id/getOne',clientsController().getOne)
+    app.post('/clients/create',clientsController().create)
     app.delete('/clients/:id/removeItem',clientsController().removeItem)
 
     //secondaryActivityController
@@ -55,7 +56,7 @@ const routesController = (app)=>{
     app.post('/users/addColumn',usersController().addColumn)
     app.delete('/users/deleteTable',usersController().deleteTable)
     app.post('/users/create',usersController().create)
-    app.get('/users/getAll',usersController().getAll)
+    app.get('/users/getAll',authorizeController().authorizeAdmin,usersController().getAll)
     app.delete('/users/:id/removeItem',usersController().removeItem)
 
     //authentivate

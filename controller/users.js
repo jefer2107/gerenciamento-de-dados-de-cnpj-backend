@@ -16,6 +16,7 @@ const usersController = ()=>{
             'date date',
             'name varchar(30)',
             'email varchar(30)',
+            'admin vachar(5)',
             'password varchar(30)'
         ]
 
@@ -52,7 +53,7 @@ const usersController = ()=>{
 
     const changeColumn = (req,res)=>{
         const body = {
-            column: 'password varchar(6)'
+            column: 'email varchar(30)'
         }
 
         dbService.modifyColumn(body).then((result)=>{
@@ -82,9 +83,9 @@ const usersController = ()=>{
 
     const addColumn = (req,res)=>{
         const body = {
-            column: 'cnpj varchar(30)',
+            column: 'admin varchar(5)',
             position: 'after',
-            of: 'fantasy'
+            of: 'email'
         }
 
         dbService.alterTableAddColumn(body).then((result)=>{
@@ -112,8 +113,8 @@ const usersController = ()=>{
 
     const create = async (req,res)=>{
         const body = {
-            columns:['date','name','email','password'],
-            values:[new Date(),req.body.name,req.body.email,req.body.password]
+            columns:['date','name','email','admin','password'],
+            values:[new Date(),req.body.name,req.body.email,(!req.body.admin || req.body.admin === ''? 'false':req.body.admin),req.body.password]
         }
 
         //validate(req.body.id).clients()

@@ -5,7 +5,7 @@ const searchCNPJ = ()=>{
         let json = {}
         
         try {
-            const {data} = await axios.get('https://receitaws.com.br/v1/cnpj/10293721000190');
+            const {data} = await axios.get('https://receitaws.com.br/v1/cnpj/10836288000192');
             const newCNPJ = data.cnpj.replace('.','').replace('.','').replace('/','').replace('-','')
             
             json = {
