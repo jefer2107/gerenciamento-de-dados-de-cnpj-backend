@@ -64,8 +64,8 @@ const corporateStructureController = ()=>{
 
     const renameColumn = (req,res)=>{
         const body = {
-            column: 'qualquer',
-            to: 'what varchar(30)'
+            column: 'what',
+            to: 'qual varchar(30)'
         }
 
         dbService.changeColumn(body).then((result)=>{
@@ -108,7 +108,7 @@ const corporateStructureController = ()=>{
         
         req.body.qsa.forEach((x)=>{
             const body = {
-                columns: ['what','name','CNPJClients'],
+                columns: ['qual','nome','CNPJClients'],
                 values: [x.qual,x.nome,x.refCnpj]
             }
 

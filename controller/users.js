@@ -98,19 +98,6 @@ const usersController = ()=>{
         })
     }
 
-    const getCNPJ = (req,res)=>{
-        searchCNPJ(req.params.id).then((result)=>{
-            response(res).send(result)
-
-        }).catch((error)=>{
-            response(res).error()
-            console.log(error)
-        })
-
-    }
-
-    
-
     const create = async (req,res)=>{
         const body = {
             columns:['date','name','email','admin','password'],
@@ -160,7 +147,6 @@ const usersController = ()=>{
         changeColumn,
         renameColumn,
         addColumn,
-        getCNPJ,
         create,
         getAll,
         removeItem
