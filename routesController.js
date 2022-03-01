@@ -56,7 +56,8 @@ const routesController = (app)=>{
     app.post('/users/addColumn',usersController().addColumn)
     app.delete('/users/deleteTable',usersController().deleteTable)
     app.post('/users/create',usersController().create)
-    app.get('/users/getAll',authorizeController().authorizeAdmin,usersController().getAll)
+    app.get('/users/getAll',usersController().getAll)
+    app.get('/users/:id/getOne',usersController().getOne)
     app.delete('/users/:id/removeItem',usersController().removeItem)
 
     //authentivate

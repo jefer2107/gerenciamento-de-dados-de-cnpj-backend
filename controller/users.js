@@ -128,6 +128,32 @@ const usersController = ()=>{
         })
     }
 
+    const getOne = (req,res)=>{
+
+        dbService.selectOne(req.params.id).then((result)=>{
+        
+            try {
+                const item = result.length !== 0? result[0]: null
+
+                if(!item) response(res).error()
+                response(res).send(item)
+
+            } catch (error) {
+                response(res).error()
+            }
+
+        }).catch((error)=>{
+            response(res).error()
+            console.log(error)
+        })
+    }
+
+    // const changeItem = ()=>{
+    //     dbService.updateChange().then((result)=>{
+    //         response(res).then
+    //     })
+    // }
+
     const removeItem = (req,res)=>{
 
         dbService.deleteItem(req.params.id).then((result)=>{
@@ -149,6 +175,7 @@ const usersController = ()=>{
         addColumn,
         create,
         getAll,
+        getOne,
         removeItem
     }
 }
