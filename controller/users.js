@@ -148,13 +148,23 @@ const usersController = ()=>{
         })
     }
 
-    // const changeItem = ()=>{
-    //     dbService.updateChange().then((result)=>{
-    //         response(res).then
-    //     })
-    // }
+    const changeItem = (req,res)=>{
+        const body= {
+            columns:['name','email','admin'],
+            values:[req.body.name,req.body.email,(!req.body.admin || req.body.admin === ""?"false":req.body.admin)]
+        }
+
+        dbService.updateChange(body,req.params.id).then((result)=>{
+            response(res).send(result)
+
+        }).catch((error)=>{
+            response(res).error()
+            console.log(error)
+        })
+    }
 
     const removeItem = (req,res)=>{
+        
 
         dbService.deleteItem(req.params.id).then((result)=>{
             response(res).send(result)
@@ -176,6 +186,7 @@ const usersController = ()=>{
         create,
         getAll,
         getOne,
+        changeItem,
         removeItem
     }
 }

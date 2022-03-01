@@ -59,6 +59,7 @@ const routesController = (app)=>{
     app.get('/users/getAll',usersController().getAll)
     app.get('/users/:id/getOne',usersController().getOne)
     app.delete('/users/:id/removeItem',usersController().removeItem)
+    app.put('/users/:id/changeItem',usersController().changeItem)
 
     //authentivate
     const authenticateController = require('./controller/authenticate')
