@@ -1,4 +1,5 @@
 const DBSevice = require("../DBService")
+const { removeAllCorporate } = require("../removeAll")
 const { response } = require("../response")
 
 const corporateStructureController = ()=>{
@@ -136,17 +137,9 @@ const corporateStructureController = ()=>{
 
     const removeAll = async (req,res)=>{
 
-        const items = await dbService.selectAll().then((x)=>{return x}).catch((error)=>{return error})
+        await removeAllCorporate(req,res)
 
-        items.forEach((x)=>{
-            dbService.deleteItem(x.id).then((result)=>{
-                response(res).send(result)
-    
-            }).catch((error)=>{
-                response(res).error()
-                console.log(error)
-            })
-        })
+        response(res).send('Itens removidos')
 
     }
 

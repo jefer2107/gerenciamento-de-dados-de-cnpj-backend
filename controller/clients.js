@@ -1,5 +1,6 @@
 const req = require("express/lib/request")
 const DBSevice = require("../DBService")
+const { removeAllActivity, removeAllCorporate } = require("../removeAll")
 const { response, emailFormat } = require("../response")
 const searchCNPJ = require("../searchCNPJ")
 const validate = require("../validate")
@@ -17,6 +18,7 @@ const clientsController = ()=>{
         const body = [
             'id varchar(30)',
             'date date',
+            'user varchar(30)',
             'date_situation varchar(30)',
             'type varchar(30)',
             'name varchar(30)',
@@ -102,9 +104,9 @@ const clientsController = ()=>{
 
     const addColumn = (req,res)=>{
         const body = {
-            column: 'cnpj varchar(30)',
+            column: 'user varchar(30)',
             position: 'after',
-            of: 'fantasy'
+            of: 'date'
         }
 
         dbService.alterTableAddColumn(body).then((result)=>{
@@ -118,7 +120,7 @@ const clientsController = ()=>{
     }
 
     const getOne = async (req,res)=>{
-        searchCNPJ(req.params.id).then((result)=>{
+        searchCNPJ(req.params.id,req.body.decoded.name).then((result)=>{
             console.log('result searchCNPJ:',result)
             response(res).send(result)
             
@@ -127,31 +129,6 @@ const clientsController = ()=>{
             response(res).error()
             console.log(error)
         })
-        
-        // const result = await verifyIfHasCnpj(req.params.id)
-
-        // if(!result || result.length == 0){
-        //     searchCNPJ(req.params.id).then((result)=>{
-        //         console.log('result searchCNPJ:',result)
-        //         response(res).send(result)
-                
-    
-        //     }).catch((error)=>{
-        //         response(res).error()
-        //         console.log(error)
-        //     })
-
-        // }else{
-        //     console.log('result dbService:',result)
-        //     dbService.connection.query(
-        //         `select * from clients join secondaryActivity on secondaryActivity.CNPJClients=clients.id 
-        //         join corporateStructure on corporateStructure.CNPJClients=clients.id where clients.id=${req.params.id};`,
-        //         (error,result)=>{
-        //             if(error) response(res).error()
-
-        //             response(res).send(result)
-        //         })
-        // }
         
     }
 
@@ -185,15 +162,31 @@ const clientsController = ()=>{
         })
     }
 
-    const removeItem = (req,res)=>{
+    const removeClient = async (req,res)=>{
 
         dbService.deleteItem(req.params.id).then((result)=>{
             response(res).send(result)
+            console.log('3.2')
 
         }).catch((error)=>{
             response(res).error()
             console.log(error)
+
+            console.log('3.2 error')
+
         })
+
+        
+    }
+
+    const removeItem = async (req,res)=>{
+
+        await removeAllActivity(req,res)
+        console.log('1')
+        await removeAllCorporate(req,res)
+        console.log('2')
+        await removeClient(req,res)
+        console.log('3')
     }
 
 

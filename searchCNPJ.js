@@ -12,8 +12,8 @@ const sendClientsData = async (json)=>{
     let dbService = DBSevice(options)
 
     const body = {
-        columns:['id','date','date_situation','type','name','sth','telephone','email','situation','district','address','number','zip_code','city','company_size','opening','legal_nature','fantasy','cnpj','status','complement','joint_stock'],
-        values:[json.id,new Date(),json.date_situation,json.type,json.name,json.sth,json.telephone,json.email,json.situation,json.district,json.address,json.number,json.zip_code,json.city,json.company_size,json.opening,json.legal_nature,json.fantasy,json.cnpj,json.status,json.complement,json.joint_stock]
+        columns:['id','date','user','date_situation','type','name','sth','telephone','email','situation','district','address','number','zip_code','city','company_size','opening','legal_nature','fantasy','cnpj','status','complement','joint_stock'],
+        values:[json.id,new Date(),json.user,json.date_situation,json.type,json.name,json.sth,json.telephone,json.email,json.situation,json.district,json.address,json.number,json.zip_code,json.city,json.company_size,json.opening,json.legal_nature,json.fantasy,json.cnpj,json.status,json.complement,json.joint_stock]
     }
 
     dbService.insert(body).then((result)=>{
@@ -166,7 +166,7 @@ const getNewObjectQsa = async (result)=>{
     return newArray
 }
 
-const searchCNPJ = async (cnpj)=>{
+const searchCNPJ = async (cnpj,user)=>{
 
     const options = {
         table: 'clients',
@@ -189,6 +189,8 @@ const searchCNPJ = async (cnpj)=>{
     
                 json = {
                     id: newCNPJ,
+                    date: new Date(),
+                    user: (!user?'':user),
                     date_situation: data.data_situacao,
                     type: data.tipo,
                     name: data.nome,
@@ -235,12 +237,13 @@ const searchCNPJ = async (cnpj)=>{
                         if(error) throw Error(error)
 
                         let newSecondary_activity = await getNewObjectActivity(result)
-                        console.log('newSecondary_activity:',newSecondary_activity)
                         let newQsa = await getNewObjectQsa(result)
-                        console.log('newQsa:',newQsa)
+                        
                         newCNPJ = result[0].cnpj.replace('.','').replace('.','').replace('/','').replace('-','')
                         json = {
                             id: newCNPJ,
+                            date: result[0].date,
+                            user: user,
                             date_situation: result[0].date_situation,
                             type: result[0].type,
                             name: result[0].name,

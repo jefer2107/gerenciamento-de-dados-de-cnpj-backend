@@ -22,9 +22,13 @@ const removeAllActivity = async (req,res)=>{
             })
         })
 
+        console.log('1.2')
+
     }).catch((error)=>{
         response(res).error()
         console.log(error)
+
+        console.log('1.2 error')
     })
 }
 
@@ -48,9 +52,13 @@ const removeAllCorporate = async (req,res)=>{
             })
         })
 
+        console.log('2.2')
+
     }).catch((error)=>{
         response(res).error()
         console.log(error)
+
+        console.log('2.2 error')
     })
 }
 
