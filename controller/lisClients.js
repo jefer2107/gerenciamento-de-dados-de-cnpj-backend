@@ -3,7 +3,7 @@ const { response } = require("../response")
 
 const ListCLientsController = ()=>{
     const options = {
-        table: 'list_cients',
+        table: 'list_clients',
         orderBy: 'id'
     }
 
@@ -13,7 +13,7 @@ const ListCLientsController = ()=>{
         const body = [
             'date date',
             'iduser int',
-            'idClient int'
+            'idClient int(30)'
         ]
 
         dbService.createTable(body).then((result)=>{
@@ -36,13 +36,40 @@ const ListCLientsController = ()=>{
         })
     }
 
+    const renameTable = (req,res)=>{
+        const body = {
+            table: 'list_clients'
+        }
+
+        dbService.alterTableRenameTo(body).then((result)=>{
+            response(res).send(result)
+
+        }).catch((error)=>{
+            response(res).error()
+            console.log(error)
+        })
+    }
+
+    const changeColumn = (req,res)=>{
+        const body = {
+            column: 'idClient int(30)'
+        }
+
+        dbService.modifyColumn(body).then((result)=>{
+            response(res).send(result)
+
+        }).catch((error)=>{
+            res.status(500).send(error)
+            console.log(error)
+
+        })
+    }
+
     const create = async (req,res)=>{
         const body = {
             columns:['id','date','idUser','idClient'],
             values:[req.body.id,new Date(),req.body.idUser,req.body.idClient]
         }
-
-        emailFormat(req.body.email)
 
         dbService.insert(body).then((result)=>{
             response(res).send(result)
@@ -65,11 +92,25 @@ const ListCLientsController = ()=>{
         })
     }
 
+    const removeItem = (req,res)=>{
+
+        dbService.deleteItem(req.params.id).then((result)=>{
+            response(res).send(result)
+
+        }).catch((error)=>{
+            response(res).error()
+            console.log(error)
+        })
+    }
+
     return{
         addTable,
         describeTable,
+        renameTable,
+        changeColumn,
         create,
-        getAll
+        getAll,
+        removeItem
     }
 }
 

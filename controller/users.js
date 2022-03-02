@@ -14,7 +14,7 @@ const usersController = ()=>{
     const addTable = (req,res)=>{
         const body = [
             'date date',
-            'name varchar(30)',
+            'nameUser varchar(30)',
             'email varchar(30)',
             'admin vachar(5)',
             'password varchar(30)'
@@ -68,8 +68,8 @@ const usersController = ()=>{
 
     const renameColumn = (req,res)=>{
         const body = {
-            column: 'cnpj',
-            to: 'id varchar(30)'
+            column: 'name',
+            to: 'nameUser varchar(30)'
         }
 
         dbService.changeColumn(body).then((result)=>{
@@ -100,8 +100,8 @@ const usersController = ()=>{
 
     const create = async (req,res)=>{
         const body = {
-            columns:['date','name','email','admin','password'],
-            values:[new Date(),req.body.name,req.body.email,(!req.body.admin || req.body.admin === ''? 'false':req.body.admin),req.body.password]
+            columns:['date','nameUser','email','admin','password'],
+            values:[new Date(),req.body.nameUser,req.body.email,(!req.body.admin || req.body.admin === ''? 'false':req.body.admin),req.body.password]
         }
 
         //validate(req.body.id).clients()

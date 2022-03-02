@@ -3,7 +3,7 @@ const DBSevice = require('./DBService')
 const { response } = require('./response')
 const verifyIfHasCnpj = require('./verifyIfHasCnpj')
 
-const sendClientsData = async (json)=>{
+const sendClient = async (json)=>{
     const options = {
         table: 'clients',
         orderBy: 'id'
@@ -21,6 +21,29 @@ const sendClientsData = async (json)=>{
     }).catch((error)=>{
         console.log(error)
         return error
+    })
+}
+
+const sendClientList = async (clientsId,userId)=>{
+    const options = {
+        table: 'list_clients',
+        orderBy: 'id'
+    }
+
+    let dbService = DBSevice(options)
+
+    const body = {
+        columns:['date','idUser','idClient'],
+        values:[new Date(),userId,clientsId]
+    }
+
+    dbService.insert(body).then((result)=>{
+        return result
+
+    }).catch((error)=>{
+        console.log(error)
+        return error
+        
     })
 }
 
@@ -167,6 +190,7 @@ const getNewObjectQsa = async (result)=>{
 }
 
 const searchCNPJ = async (cnpj,user)=>{
+    console.log('user:',user)
 
     const options = {
         table: 'clients',
@@ -215,11 +239,12 @@ const searchCNPJ = async (cnpj,user)=>{
                     joint_stock: data.capital_social
                 }
     
-                await sendClientsData(json)
+                await sendClient(json)
                 await sendAcitivitiesData(json)
                 await sendCorporatesData(json)
+                await sendClientList(newCNPJ,user)
                 
-                return res(json)
+                return res({json})
     
             } catch (err) {
                 
@@ -243,7 +268,7 @@ const searchCNPJ = async (cnpj,user)=>{
                         json = {
                             id: newCNPJ,
                             date: result[0].date,
-                            user: user,
+                            user: result[0].user,
                             date_situation: result[0].date_situation,
                             type: result[0].type,
                             name: result[0].name,

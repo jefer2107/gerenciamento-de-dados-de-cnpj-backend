@@ -11,9 +11,10 @@ const routesController = (app)=>{
     app.put('/clients/changeColumn',clientsController().changeColumn)
     app.put('/clients/renameColumn',clientsController().renameColumn)
     app.post('/clients/addColumn',clientsController().addColumn)
+    app.put('/clients/createForeignKey',clientsController().createForeignKey)
     app.delete('/clients/deleteTable',clientsController().deleteTable)
     app.get('/clients/getAll',clientsController().getAll)
-    app.get('/clients/:id/getOne',clientsController().getOne)
+    app.get('/clients/:id/:user/getOne',clientsController().getOne)
     app.post('/clients/create',clientsController().create)
     app.delete('/clients/:id/removeItem',clientsController().removeItem)
 
@@ -22,8 +23,11 @@ const routesController = (app)=>{
 
     app.post('/list_clients/addTable',listClientsController().addTable)
     app.get('/list_clients/describeTable',listClientsController().describeTable)
+    app.put('/list_clients/renameTable',listClientsController().renameTable)
+    app.put('/list_clients/changeColumn',listClientsController().changeColumn)
     app.post('/list_clients/create',listClientsController().create)
     app.get('/list_clients/getAll',listClientsController().getAll)
+    app.delete('/list_clients/removeItem',listClientsController().removeItem)
 
     //secondaryActivityController
     const secondaryActivityController = require('./controller/secondaryActivity')

@@ -81,7 +81,7 @@ const DBSevice = (options=null)=>{
     const alterTableForeignKey = (body)=>{
         const newBody = {...body,field:'id'}
         const column = newBody.foreignKey
-        const references = newBody.tableReferences
+        const references = newBody.references
         const field = newBody.field
 
         return new Promise((res,rej)=>{

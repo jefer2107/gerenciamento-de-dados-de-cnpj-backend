@@ -71,7 +71,7 @@ const clientsController = ()=>{
 
     const changeColumn = (req,res)=>{
         const body = {
-            column: 'zip_code varchar(30)'
+            column: 'user int'
         }
 
         dbService.modifyColumn(body).then((result)=>{
@@ -116,8 +116,25 @@ const clientsController = ()=>{
         })
     }
 
+    const createForeignKey = (req,res)=>{
+        const body = {
+            foreignKey: 'user',
+            references: 'users'
+        }
+
+        dbService.alterTableForeignKey(body).then((result)=>{
+            response(res).send(result)
+
+        }).catch((error)=>{
+            response(res).error()
+            console.log(error)
+
+        })
+    }
+
     const getOne = async (req,res)=>{
-        searchCNPJ(req.params.id,req.body.decoded.name).then((result)=>{
+        console.log('body getOne2:',req.params.user)
+        searchCNPJ(req.params.id,req.params.user).then((result)=>{
             console.log('result searchCNPJ:',result)
             response(res).send(result)
             
@@ -193,6 +210,7 @@ const clientsController = ()=>{
         changeColumn,
         renameColumn,
         addColumn,
+        createForeignKey,
         create,
         getOne,
         getAll,
