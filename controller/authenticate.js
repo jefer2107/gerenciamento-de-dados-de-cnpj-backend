@@ -23,7 +23,7 @@ const authenticateController = ()=>{
         dbService.selectAll(body).then((result)=>{
         
             try {
-                if(result.length === 0 || result[0].password !== req.body.password)
+                if(result[0].length === 0 || result[0].password !== req.body.password)
                 response(res).unauthorize()
 
                 const token = jwt.sign({id: result[0].id, name: result[0].name, admin: result[0].admin}, config.secretToken)

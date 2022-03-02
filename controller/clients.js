@@ -1,10 +1,7 @@
-const req = require("express/lib/request")
 const DBSevice = require("../DBService")
 const { removeAllActivity, removeAllCorporate } = require("../removeAll")
 const { response, emailFormat } = require("../response")
 const searchCNPJ = require("../searchCNPJ")
-const validate = require("../validate")
-const verifyIfHasCnpj = require("../verifyIfHasCnpj")
 
 const clientsController = ()=>{
     const options = {
@@ -149,7 +146,6 @@ const clientsController = ()=>{
             values:[req.body.id,new Date(),req.body.date_situation,req.body.type,req.body.name,req.body.sth,req.body.telephone,req.body.email,req.body.situation,req.body.district,req.body.address,req.body.number,req.body.zip_code,req.body.city,req.body.company_size,req.body.opening,req.body.legal_nature,req.body.fantasy,req.body.cnpj,req.body.status,req.body.complement,req.body.joint_stock,]
         }
 
-        //validate(req.body.id).clients()
         emailFormat(req.body.email)
 
         dbService.insert(body).then((result)=>{

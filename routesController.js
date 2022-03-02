@@ -17,6 +17,14 @@ const routesController = (app)=>{
     app.post('/clients/create',clientsController().create)
     app.delete('/clients/:id/removeItem',clientsController().removeItem)
 
+    //list_clients
+    const listClientsController = require('./controller/lisClients')
+
+    app.post('/list_clients/addTable',listClientsController().addTable)
+    app.get('/list_clients/describeTable',listClientsController().describeTable)
+    app.post('/list_clients/create',listClientsController().create)
+    app.get('/list_clients/getAll',listClientsController().getAll)
+
     //secondaryActivityController
     const secondaryActivityController = require('./controller/secondaryActivity')
 
