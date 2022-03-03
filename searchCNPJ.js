@@ -189,6 +189,8 @@ const getNewObjectQsa = async (result)=>{
     return newArray
 }
 
+const getUserName = ()=>{}
+
 const searchCNPJ = async (cnpj,user)=>{
     console.log('user:',user)
 
@@ -210,41 +212,47 @@ const searchCNPJ = async (cnpj,user)=>{
             try {
                 const {data} = await axios.get(`https://receitaws.com.br/v1/cnpj/${cnpj}`);
                 newCNPJ = data.cnpj.replace('.','').replace('.','').replace('/','').replace('-','')
-    
-                json = {
-                    id: newCNPJ,
-                    date: new Date(),
-                    user: (!user?'':user),
-                    date_situation: data.data_situacao,
-                    type: data.tipo,
-                    name: data.nome,
-                    sth: data.uf,
-                    telephone: data.telefone,
-                    email: data.email,
-                    secondary_activity: data.atividades_secundarias.map((x)=>{ return {...x,refCnpj:newCNPJ}}),
-                    qsa: data.qsa.map((x)=>{ return {...x,refCnpj:newCNPJ}}),
-                    situation: data.situacao,
-                    district: data.bairro,
-                    address: data.logradouro,
-                    number: data.numero,
-                    zip_code: data.cep,
-                    city: data.municipio,
-                    company_size: data.porte,
-                    opening: data.abertura,
-                    legal_nature: data.natureza_juridica,
-                    fantasy: data.fantasia,
-                    cnpj: data.cnpj,
-                    status: data.status,
-                    complement: data.complemento,
-                    joint_stock: data.capital_social
-                }
-    
-                await sendClient(json)
-                await sendAcitivitiesData(json)
-                await sendCorporatesData(json)
-                await sendClientList(newCNPJ,user)
-                
-                return res({json})
+
+                DBSevice().connection.query(`select nameUser from users where id=${user}`,async(error,result)=>{
+                    if(error) throw Error(error)
+
+                    json = {
+                        id: newCNPJ,
+                        date: new Date(),
+                        user: (!user?'':user),
+                        date_situation: data.data_situacao,
+                        type: data.tipo,
+                        name: data.nome,
+                        sth: data.uf,
+                        telephone: data.telefone,
+                        email: data.email,
+                        secondary_activity: data.atividades_secundarias.map((x)=>{ return {...x,refCnpj:newCNPJ}}),
+                        qsa: data.qsa.map((x)=>{ return {...x,refCnpj:newCNPJ}}),
+                        situation: data.situacao,
+                        district: data.bairro,
+                        address: data.logradouro,
+                        number: data.numero,
+                        zip_code: data.cep,
+                        city: data.municipio,
+                        company_size: data.porte,
+                        opening: data.abertura,
+                        legal_nature: data.natureza_juridica,
+                        fantasy: data.fantasia,
+                        cnpj: data.cnpj,
+                        status: data.status,
+                        complement: data.complemento,
+                        joint_stock: data.capital_social
+                    }
+        
+                    await sendClient(json)
+                    await sendAcitivitiesData(json)
+                    await sendCorporatesData(json)
+                    await sendClientList(newCNPJ,user)
+
+                    console.log('result getNameUser:',result[0].nameUser)
+                    
+                    return res({...json,user:result[0].nameUser})
+                })
     
             } catch (err) {
                 
@@ -257,7 +265,7 @@ const searchCNPJ = async (cnpj,user)=>{
                 
                 dbService.connection.query(
                     `select * from clients join secondaryActivity on secondaryActivity.CNPJClients=clients.id 
-                    join corporateStructure on corporateStructure.CNPJClients=clients.id where clients.id=${cnpj};`,
+                    join corporateStructure on corporateStructure.CNPJClients=clients.id join users on users.id=clients.user where clients.id=${cnpj};`,
                     async(error,result)=>{
                         if(error) throw Error(error)
 
@@ -268,7 +276,7 @@ const searchCNPJ = async (cnpj,user)=>{
                         json = {
                             id: newCNPJ,
                             date: result[0].date,
-                            user: result[0].user,
+                            user: result[0].nameUser,
                             date_situation: result[0].date_situation,
                             type: result[0].type,
                             name: result[0].name,

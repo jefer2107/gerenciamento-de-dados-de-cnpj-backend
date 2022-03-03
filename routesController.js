@@ -27,7 +27,9 @@ const routesController = (app)=>{
     app.put('/list_clients/changeColumn',listClientsController().changeColumn)
     app.post('/list_clients/create',listClientsController().create)
     app.get('/list_clients/getAll',listClientsController().getAll)
-    app.delete('/list_clients/removeItem',listClientsController().removeItem)
+    app.get('/list_clients/join/:table/:foreignKey/:table2/:foreignKey2/getJoinClientsAndUsers',listClientsController().getJoinClientsAndUsers)
+    app.get('/list_clients/:id/getOneJoinClientsAndUsers',listClientsController().getOneJoinClientsAndUsers)
+    app.delete('/list_clients/:id/removeItem',listClientsController().removeItem)
 
     //secondaryActivityController
     const secondaryActivityController = require('./controller/secondaryActivity')

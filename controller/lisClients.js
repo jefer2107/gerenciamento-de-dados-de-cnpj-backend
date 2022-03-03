@@ -52,7 +52,7 @@ const ListCLientsController = ()=>{
 
     const changeColumn = (req,res)=>{
         const body = {
-            column: 'idClient int(30)'
+            column: 'idClient varchar(20)'
         }
 
         dbService.modifyColumn(body).then((result)=>{
@@ -92,6 +92,35 @@ const ListCLientsController = ()=>{
         })
     }
 
+    const getJoinClientsAndUsers = (req,res)=>{
+        const table = req.params.table
+        const table2 = req.params.table2
+        const body = {
+            foreignkey: req.params.foreignKey,
+            foreignkey2: req.params.foreignKey2,
+            columns:["clients.id","clients.date","clients.name","clients.fantasy","clients.status","users.nameUser"]
+        }
+        
+        dbService.selectJoin(body,table,table2).then((result)=>{
+            response(res).send(result)
+
+        }).catch((error)=>{
+            response(res).error()
+            console.log(error)
+
+        })
+    }
+
+    const getOneJoinClientsAndUsers = (req,res)=>{
+        let id = req.params.id
+        
+        dbService.connection.query(`select clients.id,clients.date,clients.name,clients.fantasy,clients.status,users.nameUser from list_clients join clients on clients.id=list_clients.idClient join users on users.id=list_clients.idUser where list_clients.idUser=${id}`,(error,result)=>{
+            if(error) response(res).error()
+
+            response(res).send(result)
+        })
+    }
+
     const removeItem = (req,res)=>{
 
         dbService.deleteItem(req.params.id).then((result)=>{
@@ -110,6 +139,8 @@ const ListCLientsController = ()=>{
         changeColumn,
         create,
         getAll,
+        getJoinClientsAndUsers,
+        getOneJoinClientsAndUsers,
         removeItem
     }
 }
