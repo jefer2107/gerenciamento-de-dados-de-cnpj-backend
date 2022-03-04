@@ -312,4 +312,10 @@ const searchCNPJ = async (cnpj,user)=>{
 
 }
 
+const verifyUpdate = ()=>{
+    dbService.connection.query(``)
+}
+
+const updateCNPJ = (cnpj)=>{}
+
 module.exports = searchCNPJ
