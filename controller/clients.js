@@ -192,6 +192,14 @@ const clientsController = ()=>{
         
     }
 
+    const getJoinClientsAndUsers = (req,res)=>{
+        dbService.connection.query(`select clients.id,clients.date,clients.name,clients.fantasy,clients.status,users.nameUser from clients join users on clients.user=users.id`,(error,result)=>{
+            if(error) response(res).error()
+
+            response(res).send(result)
+        })
+    }
+
     const removeItem = async (req,res)=>{
 
         await removeAllActivity(req,res)
@@ -213,6 +221,7 @@ const clientsController = ()=>{
         create,
         getOne,
         getAll,
+        getJoinClientsAndUsers,
         removeItem
     }
 }

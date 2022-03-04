@@ -104,7 +104,6 @@ const usersController = ()=>{
             values:[new Date(),req.body.nameUser,req.body.email,(!req.body.admin || req.body.admin === ''? 'false':req.body.admin),req.body.password]
         }
 
-        //validate(req.body.id).clients()
         emailFormat(req.body.email)
 
         dbService.insert(body).then((result)=>{
@@ -150,8 +149,8 @@ const usersController = ()=>{
 
     const changeItem = (req,res)=>{
         const body= {
-            columns:['name','email','admin'],
-            values:[req.body.name,req.body.email,(!req.body.admin || req.body.admin === ""?"false":req.body.admin)]
+            columns:['nameUser','email','admin'],
+            values:[req.body.nameUser,req.body.email,(!req.body.admin || req.body.admin === ""?"false":req.body.admin)]
         }
 
         dbService.updateChange(body,req.params.id).then((result)=>{
@@ -165,7 +164,6 @@ const usersController = ()=>{
 
     const removeItem = (req,res)=>{
         
-
         dbService.deleteItem(req.params.id).then((result)=>{
             response(res).send(result)
 

@@ -189,8 +189,6 @@ const getNewObjectQsa = async (result)=>{
     return newArray
 }
 
-const getUserName = ()=>{}
-
 const searchCNPJ = async (cnpj,user)=>{
     console.log('user:',user)
 

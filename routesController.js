@@ -1,7 +1,5 @@
 const authorizeController = require('./middlewares/authorize')
 
-
-
 const routesController = (app)=>{
     //clients
     const clientsController = require('./controller/clients')
@@ -15,6 +13,7 @@ const routesController = (app)=>{
     app.delete('/clients/deleteTable',clientsController().deleteTable)
     app.get('/clients/getAll',clientsController().getAll)
     app.get('/clients/:id/:user/getOne',clientsController().getOne)
+    app.get('/clients/getJoinClientsAndUsers',clientsController().getJoinClientsAndUsers)
     app.post('/clients/create',clientsController().create)
     app.delete('/clients/:id/removeItem',clientsController().removeItem)
 
@@ -75,7 +74,7 @@ const routesController = (app)=>{
     app.delete('/users/:id/removeItem',usersController().removeItem)
     app.put('/users/:id/changeItem',usersController().changeItem)
 
-    //authentivate
+    //authenticate
     const authenticateController = require('./controller/authenticate')
 
     app.post('/auth',authenticateController().auth)
