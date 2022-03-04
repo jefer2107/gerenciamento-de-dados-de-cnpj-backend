@@ -1,7 +1,5 @@
 const DBSevice = require("../DBService")
 const { response, emailFormat } = require("../response")
-const searchCNPJ = require("../searchCNPJ")
-const validate = require("../validate")
 
 const usersController = ()=>{
     const options = {
@@ -98,12 +96,37 @@ const usersController = ()=>{
         })
     }
 
+    const verifyUser = async (email)=>{
+        console.log('veriFyUser email:',email)
+        let resultMysql
+        
+        await dbService.selectAll().then((result)=>{
+            const newResult = result.filter(e=> e.email === email)
+
+            resultMysql = newResult
+
+        }).catch((error)=>{
+            throw Error(error)
+        })
+
+        if(resultMysql[0].email === email) throw Error('An account with this email already exists')
+    }
+
+    const validateUser = async (user)=>{
+        console.log('validateUser user:',user)
+        if(user.nameUser === "" || user.email === "" || user.password === "") throw Error("You need to fill in the empty fields")
+        if(user.email.length > 30) throw Error("Email cannot be longer than 30 characters")
+        if(user.email.password > 6) throw Error("Password cannot be longer than 8 characters")
+    }
+
     const create = async (req,res)=>{
         const body = {
             columns:['date','nameUser','email','admin','password'],
             values:[new Date(),req.body.nameUser,req.body.email,(!req.body.admin || req.body.admin === ''? 'false':req.body.admin),req.body.password]
         }
 
+        await verifyUser(req.body.email)
+        await validateUser(req.body)
         emailFormat(req.body.email)
 
         dbService.insert(body).then((result)=>{
