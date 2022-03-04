@@ -103,8 +103,6 @@ const secondaryActivityController = ()=>{
                 values: [x.text,x.code,x.refCnpj]
             }
 
-            //validate(x.refCnpj).secondaryActivity()
-
             dbService.insert(body).then((result)=>{
                 response(res).send(result)
 
@@ -131,7 +129,7 @@ const secondaryActivityController = ()=>{
     const removeItem = (req,res)=>{
 
         dbService.deleteItem(req.params.id).then((result)=>{
-            response(res).send(result)
+            response(res).send("Removed")
 
         }).catch((error)=>{
             response(res).error()

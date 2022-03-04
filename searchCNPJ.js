@@ -3,7 +3,7 @@ const DBSevice = require('./DBService')
 const { response } = require('./response')
 const verifyIfHasCnpj = require('./verifyIfHasCnpj')
 
-const sendClient = async (json)=>{
+const saveClient = async (json)=>{
     const options = {
         table: 'clients',
         orderBy: 'id'
@@ -24,7 +24,7 @@ const sendClient = async (json)=>{
     })
 }
 
-const sendClientList = async (clientsId,userId)=>{
+const saveClientList = async (clientsId,userId)=>{
     const options = {
         table: 'list_clients',
         orderBy: 'id'
@@ -47,7 +47,7 @@ const sendClientList = async (clientsId,userId)=>{
     })
 }
 
-const sendAcitivitiesData = async (json)=>{
+const saveAcitivitiesData = async (json)=>{
     const options = {
         table: 'secondaryActivity',
         orderBy: 'id'
@@ -72,7 +72,7 @@ const sendAcitivitiesData = async (json)=>{
     })
 }
 
-const sendCorporatesData = async (json)=>{
+const saveCorporatesData = async (json)=>{
     const options = {
         table: 'corporateStructure',
         orderBy: 'id'
@@ -242,10 +242,10 @@ const searchCNPJ = async (cnpj,user)=>{
                         joint_stock: data.capital_social
                     }
         
-                    await sendClient(json)
-                    await sendAcitivitiesData(json)
-                    await sendCorporatesData(json)
-                    await sendClientList(newCNPJ,user)
+                    await saveClient(json)
+                    await saveAcitivitiesData(json)
+                    await saveCorporatesData(json)
+                    await saveClientList(newCNPJ,user)
 
                     console.log('result getNameUser:',result[0].nameUser)
                     

@@ -10,18 +10,16 @@ const removeAllActivity = async (req,res)=>{
 
     let dbService = DBSevice(option)
 
-    dbService.selectAll().then((resultMysql)=>{
+    await dbService.selectAll().then((resultMysql)=>{
         resultMysql.forEach((x)=>{
 
-            setTimeout(()=>{
-                dbService.deleteItem(x.id).then((result)=>{
-                    response(res).send(result)
-    
-                }).catch((error)=>{
-                    response(res).error()
-                    console.log(error)
-                })
-            },7000)
+            dbService.deleteItem(x.id).then((result)=>{
+                response(res).send(result)
+
+            }).catch((error)=>{
+                response(res).error()
+                console.log(error)
+            })
 
         })
 
@@ -43,18 +41,16 @@ const removeAllCorporate = async (req,res)=>{
 
     let dbService = DBSevice(option)
 
-    dbService.selectAll().then((resultMysql)=>{
+    await dbService.selectAll().then((resultMysql)=>{
         resultMysql.forEach((x)=>{
 
-            setTimeout(()=>{
-                dbService.deleteItem(x.id).then((result)=>{
-                    response(res).send(result)
-    
-                }).catch((error)=>{
-                    response(res).error()
-                    console.log(error)
-                })
-            },7000)
+            dbService.deleteItem(x.id).then((result)=>{
+                response(res).send(result)
+
+            }).catch((error)=>{
+                response(res).error()
+                console.log(error)
+            })
         })
 
         console.log('2.2')

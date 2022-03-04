@@ -26,7 +26,7 @@ const authenticateController = ()=>{
                 if(result[0].length === 0 || result[0].password !== req.body.password)
                 response(res).unauthorize()
 
-                const token = jwt.sign({id: result[0].id, name: result[0].nameUser, admin: result[0].admin}, config.secretToken)
+                const token = jwt.sign({id: result[0].id, nameUser: result[0].nameUser, admin: result[0].admin}, config.secretToken)
 
                 response(res).send(token)
 

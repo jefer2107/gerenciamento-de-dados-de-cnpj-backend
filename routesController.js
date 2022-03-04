@@ -13,7 +13,7 @@ const routesController = (app)=>{
     app.delete('/clients/deleteTable',clientsController().deleteTable)
     app.get('/clients/getAll',clientsController().getAll)
     app.get('/clients/:id/:user/getOne',clientsController().getOne)
-    app.get('/clients/getJoinClientsAndUsers',clientsController().getJoinClientsAndUsers)
+    app.get('/clients/getJoinClientsAndUsers',authorizeController().authorizeUser,clientsController().getJoinClientsAndUsers)
     app.get('/clients/:id/getOneJoinClientAndUsers',clientsController().getOneJoinClientAndUsers)
     app.post('/clients/create',clientsController().create)
     app.delete('/clients/:id/removeItem',clientsController().removeItem)

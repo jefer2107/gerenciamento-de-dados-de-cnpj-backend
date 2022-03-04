@@ -8,7 +8,8 @@ const authorizeController = ()=>{
         const authHeader = req.header('Authorization')
         const token = (authHeader && authHeader !== ''? authHeader.replace('Bearer ',''): null)
     
-        console.log('authHeader:',authHeader)
+        console.log('authorizeUser authHeader:',authHeader)
+        console.log('authorizeUser token:',token)
     
         jwt.verify(token, config.secretToken, (error,decoded)=>{
     
