@@ -206,13 +206,7 @@ const clientsController = ()=>{
         dbService.connection.query(`select clients.id,clients.date,clients.name,clients.fantasy,clients.status,users.nameUser from clients join users on clients.user=users.id where clients.user=${id}`,(error,result)=>{
             if(error) response(res).error()
 
-            try {
-                const item = result.length !== 0? result[0]:null
-                response(res).send(item)
-
-            } catch (error) {
-                response(res).error()
-            }
+            response(res).send(result)
         })
     }
 
