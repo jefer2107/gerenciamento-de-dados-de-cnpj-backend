@@ -11,9 +11,9 @@ const removeAllActivity = async (req,res)=>{
     let dbService = DBSevice(option)
 
     await dbService.selectAll().then((resultMysql)=>{
-        resultMysql.forEach((x)=>{
+        resultMysql.forEach(async(x)=>{
 
-            dbService.deleteItem(x.id).then((result)=>{
+            await dbService.deleteItem(x.id).then((result)=>{
                 response(res).send(result)
 
             }).catch((error)=>{
@@ -23,13 +23,10 @@ const removeAllActivity = async (req,res)=>{
 
         })
 
-        console.log('1.2')
-
     }).catch((error)=>{
         response(res).error()
         console.log(error)
 
-        console.log('1.2 error')
     })
 }
 
@@ -42,9 +39,9 @@ const removeAllCorporate = async (req,res)=>{
     let dbService = DBSevice(option)
 
     await dbService.selectAll().then((resultMysql)=>{
-        resultMysql.forEach((x)=>{
+        resultMysql.forEach(async(x)=>{
 
-            dbService.deleteItem(x.id).then((result)=>{
+            await dbService.deleteItem(x.id).then((result)=>{
                 response(res).send(result)
 
             }).catch((error)=>{
@@ -53,13 +50,10 @@ const removeAllCorporate = async (req,res)=>{
             })
         })
 
-        console.log('2.2')
-
     }).catch((error)=>{
         response(res).error()
         console.log(error)
 
-        console.log('2.2 error')
     })
 }
 

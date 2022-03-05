@@ -101,7 +101,7 @@ const usersController = ()=>{
         let resultMysql
         
         await dbService.selectAll().then((result)=>{
-            const newResult = result.filter(e=> e.email === email)
+            const newResult = result.length !== 0? result.filter(e=> e.email === email): null
 
             resultMysql = newResult
 
@@ -109,14 +109,16 @@ const usersController = ()=>{
             throw Error(error)
         })
 
-        if(resultMysql[0].email === email) throw Error('An account with this email already exists')
+        if(resultMysql !== null && resultMysql[0]?.email === email) throw Error('An account with this email already exists')
     }
 
     const validateUser = async (user)=>{
         console.log('validateUser user:',user)
         if(user.nameUser === "" || user.email === "" || user.password === "") throw Error("You need to fill in the empty fields")
         if(user.email.length > 30) throw Error("Email cannot be longer than 30 characters")
-        if(user.email.password > 6) throw Error("Password cannot be longer than 8 characters")
+        await emailFormat(user.email)
+
+        if(user.password.length !== 6) throw Error("Password should be 6 characters")
     }
 
     const create = async (req,res)=>{
@@ -127,7 +129,6 @@ const usersController = ()=>{
 
         await verifyUser(req.body.email)
         await validateUser(req.body)
-        emailFormat(req.body.email)
 
         dbService.insert(body).then((result)=>{
             response(res).send(result)
@@ -140,6 +141,17 @@ const usersController = ()=>{
     }
 
     const getAll = (req,res)=>{
+        dbService.selectAll().then((result)=>{
+            response(res).send(result)
+
+        }).catch((error)=>{
+            response(res).error()
+            console.log(error)
+
+        })
+    }
+
+    const getAllunauthenticated = (req,res)=>{
         dbService.selectAll().then((result)=>{
             response(res).send(result)
 
@@ -206,6 +218,7 @@ const usersController = ()=>{
         addColumn,
         create,
         getAll,
+        getAllunauthenticated,
         getOne,
         changeItem,
         removeItem

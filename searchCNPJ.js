@@ -209,13 +209,12 @@ const searchCNPJ = async (cnpj,user)=>{
             
             try {
                 const {data} = await axios.get(`https://receitaws.com.br/v1/cnpj/${cnpj}`);
-                newCNPJ = data.cnpj.replace('.','').replace('.','').replace('/','').replace('-','')
 
                 DBSevice().connection.query(`select nameUser from users where id=${user}`,async(error,result)=>{
                     if(error) throw Error(error)
 
                     json = {
-                        id: newCNPJ,
+                        id: data.length !== 0 && cnpj,
                         date: new Date(),
                         user: (!user?'':user),
                         date_situation: data.data_situacao,
@@ -224,8 +223,8 @@ const searchCNPJ = async (cnpj,user)=>{
                         sth: data.uf,
                         telephone: data.telefone,
                         email: data.email,
-                        secondary_activity: data.atividades_secundarias.map((x)=>{ return {...x,refCnpj:newCNPJ}}),
-                        qsa: data.qsa.map((x)=>{ return {...x,refCnpj:newCNPJ}}),
+                        secondary_activity: data.atividades_secundarias.map((x)=>{ return {...x,refCnpj:cnpj}}),
+                        qsa: data.qsa.map((x)=>{ return {...x,refCnpj:cnpj}}),
                         situation: data.situacao,
                         district: data.bairro,
                         address: data.logradouro,
@@ -258,7 +257,7 @@ const searchCNPJ = async (cnpj,user)=>{
             }
 
         }else{
-
+            console.log('cnpj searcCNPJ api interna:',cnpj)
             try {
                 
                 dbService.connection.query(
@@ -270,9 +269,8 @@ const searchCNPJ = async (cnpj,user)=>{
                         let newSecondary_activity = await getNewObjectActivity(result)
                         let newQsa = await getNewObjectQsa(result)
                         
-                        newCNPJ = result[0].cnpj.replace('.','').replace('.','').replace('/','').replace('-','')
                         json = {
-                            id: newCNPJ,
+                            id: cnpj,
                             date: result[0].date,
                             user: result[0].nameUser,
                             date_situation: result[0].date_situation,
@@ -312,10 +310,5 @@ const searchCNPJ = async (cnpj,user)=>{
 
 }
 
-const verifyUpdate = ()=>{
-    dbService.connection.query(``)
-}
-
-const updateCNPJ = (cnpj)=>{}
 
 module.exports = searchCNPJ

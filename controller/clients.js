@@ -6,7 +6,7 @@ const searchCNPJ = require("../searchCNPJ")
 const clientsController = ()=>{
     const options = {
         table: 'clients',
-        orderBy: 'id'
+        orderBy: 'date'
     }
 
     let dbService = DBSevice(options)
@@ -176,16 +176,14 @@ const clientsController = ()=>{
     }
 
     const removeClient = async (req,res)=>{
+        console.log("removeClient")
 
-        dbService.deleteItem(req.params.id).then((result)=>{
+        await dbService.deleteItem(req.params.id).then((result)=>{
             response(res).send(result)
-            console.log('3.2')
 
         }).catch((error)=>{
             response(res).error()
             console.log(error)
-
-            console.log('3.2 error')
 
         })
 
@@ -211,13 +209,10 @@ const clientsController = ()=>{
     }
 
     const removeItem = async (req,res)=>{
-
+        console.log("removeItem")
         await removeAllActivity(req,res)
-        console.log('1')
         await removeAllCorporate(req,res)
-        console.log('2')
         await removeClient(req,res)
-        console.log('3')
     }
 
     return{

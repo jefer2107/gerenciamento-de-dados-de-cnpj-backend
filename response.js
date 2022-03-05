@@ -13,7 +13,7 @@ const response = (res)=>{
     }
 }
 
-const emailFormat = (email)=>{
+const emailFormat = async (email)=>{
     const characters = ['@','.','com']
     if(!email) throw Error('email not informed')
     

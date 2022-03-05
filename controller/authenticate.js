@@ -1,7 +1,16 @@
 const DBSevice = require("../DBService")
-const { response } = require("../response")
+const { response, emailFormat } = require("../response")
 const jwt = require('jsonwebtoken')
 const config = require('../config')
+
+const validateUser = async (user)=>{
+    console.log('validateUser user:',user)
+    if(user.email === "" || user.password === "") throw Error("You need to fill in the empty fields")
+    if(user.email.length > 30) throw Error("Email cannot be longer than 30 characters")
+    await emailFormat(user.email)
+
+    if(user.password.length !== 6) throw Error("Password should be 6 characters")
+}
 
 
 const authenticateController = ()=>{
@@ -12,7 +21,7 @@ const authenticateController = ()=>{
 
     let dbService = DBSevice(options)
 
-    const auth = (req,res)=>{
+    const auth = async (req,res)=>{
         const body = {
             where: {
                 column: ['email'],
@@ -20,7 +29,9 @@ const authenticateController = ()=>{
             }
         }
 
-        dbService.selectAll(body).then((result)=>{
+        await validateUser(req.body)
+        
+        await dbService.selectAll(body).then((result)=>{
         
             try {
                 if(result[0].length === 0 || result[0].password !== req.body.password)
