@@ -96,48 +96,58 @@ const usersController = ()=>{
         })
     }
 
-    const verifyUser = async (email)=>{
-        console.log('veriFyUser email:',email)
-        let resultMysql
-        
-        await dbService.selectAll().then((result)=>{
-            const newResult = result.length !== 0? result.filter(e=> e.email === email): null
-
-            resultMysql = newResult
-
-        }).catch((error)=>{
-            throw Error(error)
-        })
-
-        if(resultMysql !== null && resultMysql[0]?.email === email) throw Error('An account with this email already exists')
-    }
 
     const validateUser = async (user)=>{
-        console.log('validateUser user:',user)
-        if(user.nameUser === "" || user.email === "" || user.password === "") throw Error("You need to fill in the empty fields")
-        if(user.email.length > 30) throw Error("Email cannot be longer than 30 characters")
-        await emailFormat(user.email)
+        return new Promise(async(res,rej)=>{
+            let resultMysql
+            const characters = ['@','.','com']
+        
+            await dbService.selectAll().then((result)=>{
+                const newResult = result.length !== 0? result.filter(e=> e.email === user.email): null
 
-        if(user.password.length !== 6) throw Error("Password should be 6 characters")
+                resultMysql = newResult
+                console.log("resultMysql:",resultMysql)
+
+            }).catch((error)=>{
+                return rej(error)
+            })
+
+            if(resultMysql !== null && resultMysql[0]?.email === user.email) return rej('An account with this email already exists')
+            if(user.nameUser === "" || user.email === "" || user.password === "") return rej("You need to fill in the empty fields")
+            if(user.email.length > 30) return rej("Email cannot be longer than 30 characters")
+            if(!user.email) return rej('email not informed')
+    
+            characters.forEach(e=> {if(!user.email.includes(e)) 
+                return rej(`this email format does not exist`)})
+
+            if(user.password.length !== 6) return rej("Password should be 6 characters")
+
+            return res()
+        })
+        
     }
 
-    const create = async (req,res)=>{
+    const create = (req,res)=>{
         const body = {
             columns:['date','nameUser','email','admin','password'],
             values:[new Date(),req.body.nameUser,req.body.email,(!req.body.admin || req.body.admin === ''? 'false':req.body.admin),req.body.password]
         }
 
-        await verifyUser(req.body.email)
-        await validateUser(req.body)
-
-        dbService.insert(body).then((result)=>{
-            response(res).send(result)
+        validateUser(req.body).then(()=>{
+            dbService.insert(body).then((result)=>{
+                response(res).send(result)
+    
+            }).catch((error)=>{
+                response(res).error()
+                console.log(error)
+    
+            })
 
         }).catch((error)=>{
-            response(res).error()
+            response(res).error(error)
             console.log(error)
-
         })
+
     }
 
     const getAll = (req,res)=>{

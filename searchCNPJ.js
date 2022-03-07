@@ -124,8 +124,6 @@ const searchCNPJ = async (cnpj,user)=>{
             try {
                 const {data} = await axios.get(`https://receitaws.com.br/v1/cnpj/${cnpj}`);
 
-                console.log("data:",data)
-
                 DBSevice().connection.query(`select nameUser from users where id=${user}`,async(error,result)=>{
                     if(error) throw Error(error)
 
