@@ -1,5 +1,4 @@
 const DBSevice = require("../DBService")
-const { removeAllActivity, removeAllCorporate } = require("../removeAll")
 const { response, emailFormat } = require("../response")
 const searchCNPJ = require("../searchCNPJ")
 
@@ -172,19 +171,6 @@ const clientsController = ()=>{
         })
     }
 
-    const removeClient = async (req,res)=>{
-
-        await dbService.deleteItem(req.params.id).then((result)=>{
-            console.log("removeClient")
-            response(res).send(result)
-
-        }).catch((error)=>{
-            response(res).error()
-            console.log(error)
-
-        })
-        
-    }
 
     const getJoinClientsAndUsers = (req,res)=>{
         dbService.connection.query(`select clients.id,clients.date,clients.name,clients.fantasy,clients.status,users.nameUser from clients join users on clients.user=users.id`,(error,result)=>{
@@ -204,11 +190,16 @@ const clientsController = ()=>{
         })
     }
 
-    const removeItem = async (req,res)=>{
-        console.log("removeItem")
-        await removeAllActivity(req,res)
-        await removeAllCorporate(req,res)
-        await removeClient(req,res)
+    const removeItem = (req,res)=>{
+        dbService.deleteItem(req.params.id).then((result)=>{
+            console.log("removeClient")
+            response(res).send(result)
+
+        }).catch((error)=>{
+            response(res).error()
+            console.log(error)
+
+        })
     }
 
     return{
