@@ -23,6 +23,8 @@ const removeAllActivity = async (req,res)=>{
 
         })
 
+        console.log("removeAllActivity")
+
     }).catch((error)=>{
         response(res).error()
         console.log(error)
@@ -49,6 +51,8 @@ const removeAllCorporate = async (req,res)=>{
                 console.log(error)
             })
         })
+
+        console.log("removeAllCorporate")
 
     }).catch((error)=>{
         response(res).error()

@@ -8,9 +8,6 @@ const authorizeController = ()=>{
         const authHeader = req.header('Authorization')
         const token = (authHeader && authHeader !== ''? authHeader.replace('Bearer ',''): null)
     
-        console.log('authorizeUser authHeader:',authHeader)
-        console.log('authorizeUser token:',token)
-    
         jwt.verify(token, config.secretToken, (error,decoded)=>{
     
             if(error){
@@ -18,7 +15,6 @@ const authorizeController = ()=>{
                 return
             }
     
-            console.log('decoded:',decoded)
             req.userId = decoded.userId
     
             next()
@@ -29,8 +25,6 @@ const authorizeController = ()=>{
         const authHeader = req.header('Authorization')
         const token = (authHeader && authHeader !== ''? authHeader.replace('Bearer ',''): null)
     
-        console.log('authHeader:',authHeader)
-    
         jwt.verify(token, config.secretToken, (error,decoded)=>{
     
             if(error){
@@ -39,9 +33,9 @@ const authorizeController = ()=>{
             }
 
             try {
-                console.log('decoded:',decoded)
+                
                 if(decoded.admin === 'true'){
-                    console.log('decoded:',decoded)
+                    
                     req.userId = decoded.userId
             
                     next()

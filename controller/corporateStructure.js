@@ -12,8 +12,8 @@ const corporateStructureController = ()=>{
 
     const addTable = (req,res)=>{
         const body = [
-            'what varchar(100)',
-            'name varchar(30)',
+            'qual varchar(100)',
+            'nome varchar(30)',
             'CNPJClients varchar(30)'
         ]
 

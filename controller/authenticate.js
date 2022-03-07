@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken')
 const config = require('../config')
 
 const validateUser = async (user)=>{
-    console.log('validateUser user:',user)
     if(user.email === "" || user.password === "") throw Error("You need to fill in the empty fields")
     if(user.email.length > 30) throw Error("Email cannot be longer than 30 characters")
     await emailFormat(user.email)

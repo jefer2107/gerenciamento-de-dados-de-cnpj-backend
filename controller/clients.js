@@ -133,12 +133,9 @@ const clientsController = ()=>{
     }
 
     const getOne = async (req,res)=>{
-        console.log('body getOne2:',req.params.user)
         searchCNPJ(req.params.id,req.params.user).then((result)=>{
-            console.log('result searchCNPJ:',result)
             response(res).send(result)
             
-
         }).catch((error)=>{
             response(res).error()
             console.log(error)
@@ -176,9 +173,9 @@ const clientsController = ()=>{
     }
 
     const removeClient = async (req,res)=>{
-        console.log("removeClient")
 
         await dbService.deleteItem(req.params.id).then((result)=>{
+            console.log("removeClient")
             response(res).send(result)
 
         }).catch((error)=>{
@@ -186,7 +183,6 @@ const clientsController = ()=>{
             console.log(error)
 
         })
-
         
     }
 
